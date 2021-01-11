@@ -1,0 +1,307 @@
+<html lang="en">
+
+<head>
+
+    <!-- Important meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+
+    <!-- Google Fonts Open Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../css/bootstrap/bootstrap.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <header class="site-header">
+            <div class="container header-wrapper">
+                <div class="logo-wrapper">
+
+                    <a href="#" title="Site Logo">
+                        <!--<img src="../../images/pre-login/top-logo.png" alt="logo" id="logo-default">-->
+                        <img src="../../images/images/logo.png" class="img-responsive" alt="logo" id="logo">
+                    </a>
+                    <!-- Mobile Menu Open Button-->
+                    <span id="mobile-nav-open-btn">&#9776;</span>
+                </div>
+                <div class="navigation-wrapper">
+                    <nav class="main-nav">
+                        <ul class="menu-navigation">
+                            <li>
+                                <a href="#">Search Notes</a>
+                            </li>
+                            <li>
+                                <a href="#">Sell Your Notes</a>
+                            </li>
+                            <li>
+                                <a href="#">Buyer Request</a>
+                            </li>
+                            <li>
+                                <a href="#">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="#">Contact Us</a>
+                            </li>
+
+
+
+
+                            <div class="dropdown navigation-submenu">
+                                <button class="btn btn-secondary dropdown-toggle button-with-image" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img id="navigation-img" src="../../images/images/user-img.png" class="img-circle" alt="user-img">
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">My Profile</a>
+                                    <a class="dropdown-item" href="#">My Downloads</a>
+                                    <a class="dropdown-item" href="#">My Sold Notes</a>
+                                    <a class="dropdown-item" href="#">My Rejected Notes</a>
+                                    <a class="dropdown-item" href="#">Change Password</a>
+                                    <a class="dropdown-item" href="#" id="submenu-logout">LOGOUT</a>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" id="logout">Logout</button>
+                        </ul>
+                    </nav>
+                </div>
+
+
+                <!-- Mobile Menu -->
+                <div id="mobile-nav">
+                    <!-- Mobile Menu Close Button -->
+                    <span id="mobile-nav-close-btn">&times;</span>
+
+                    <div id="mobile-nav-content">
+                        <ul class="nav">
+
+                            <li><a class="smooth-scroll" href="#home">Search Notes</a></li>
+                            <li><a class="smooth-scroll" href="#home">Sell Your Notes</a></li>
+                            <li><a class="smooth-scroll" href="#team">Buyer Request</a></li>
+                            <li><a class="smooth-scroll" href="#portfolio">FAQ</a></li>
+                            <li><a class="smooth-scroll" href="#portfolio">Contact Us</a></li>
+                            <li id="profile-menu">
+                                <img id="navigation-mobile-img" src="../../images/images/user-img.png" class="img-circle" alt="user-img">
+                                <div class="profile-submenu">
+                                    <a class="dropdown-item" href="#">My Profile</a>
+                                    <a class="dropdown-item" href="#">My Downloads</a>
+                                    <a class="dropdown-item" href="#">My Sold Notes</a>
+                                    <a class="dropdown-item" href="#">My Rejected Notes</a>
+                                    <a class="dropdown-item" href="#">Change Password</a>
+                                </div>
+                            </li>
+                            <button type="submit" class="btn btn-primary navigation-logout">Logout</button>
+
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </header>
+    </div>
+
+    <section class="title-section">
+        <h1>User Profile</h1>
+    </section>
+
+    <section id="user-profile">
+        <div class="container" id="user-profile-form">
+            <form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="profile-headings">Basic Profile Details</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-fn" class="user-profile-label">First Name *</label><br>
+                            <input id="profile-fn" type="text" class="form-control user-profile-input" placeholder="Enter your first name">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-ln" class="user-profile-label">Last Name *</label><br>
+                            <input id="profile-ln" type="text" class="form-control user-profile-input" placeholder="Enter your last name">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-email" class="user-profile-label">Email *</label><br>
+                            <input id="profile-email" type="email" class="form-control user-profile-input" aria-describedby="emailHelp" placeholder="Enter your email address">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-dob" class="user-profile-label">Date Of Birth</label><br>
+                            <input id="profile-dob" type="date" class="form-control user-profile-input" placeholder="Enter your date of birth">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-gender" class="user-profile-label">Gender</label><br>
+                            <select name="profile-gender" id="profile-gender">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-phone" class="user-profile-label">Phone Number</label><br>
+                            <div class="col-md-2">
+                                <select id="profile-phone-code">
+                                    <option>+91</option>
+                                </select>
+                            </div>
+                            <div class="col-md-10 profile-phone-div">
+                                <input id="profile-phone" type="text" class="form-control user-profile-input" placeholder="Enter your phone number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-upload" class="user-profile-label">Profile Picture</label><br>
+                            <label for="profile-upload" id="profile-upload-label-img">
+                                <img src="../../images/User-Profile/upload.png" alt="Upload File Here"><span>Uppload a picture</span>
+                            </label>
+                            <input type="file" class="form-control" id="profile-upload">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="profile-headings">Address Details</h1>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-address-1" class="user-profile-label">Address Line 1 *</label><br>
+                            <input id="profile-address-1" type="text" class="form-control user-profile-input" placeholder="Enter your address">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-address-1" class="user-profile-label">Address Line 2 </label><br>
+                            <input id="profile-address-2" type="text" class="form-control user-profile-input" placeholder="Enter your address">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-city" class="user-profile-label">City *</label><br>
+                            <input id="profile-city" type="text" class="form-control user-profile-input" placeholder="Enter your city">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-state" class="user-profile-label">State *</label><br>
+                            <input id="profile-state" type="text" class="form-control user-profile-input" placeholder="Enter your State">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-zip" class="user-profile-label">ZipCode *</label><br>
+                            <input id="profile-zip" type="text" class="form-control user-profile-input" placeholder="Enter your zipcode">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-country" class="user-profile-label">Country *</label><br>
+                            <select name="profile-country" id="profile-country">
+                                <option value="male">Select your country</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="profile-headings">University and college information</h1>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-university" class="user-profile-label">University</label><br>
+                            <input id="profile-university" type="text" class="form-control user-profile-input" placeholder="Enter your university">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="profile-college" class="user-profile-label">College</label><br>
+                            <input id="profile-college" type="text" class="form-control user-profile-input" placeholder="Enter your college">
+                        </div>
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-primary profile-submit">SUBMIT</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>
+                        Copyright &copy; TatvaSoft All rights reserved.
+                        <span class="social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+    </footer>
+    <!-- Footer Ends -->
+
+    <!-- JQuery -->
+    <script src="../../js/jquery.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="../../js/script.js"></script>
+</body>
+
+</html>
