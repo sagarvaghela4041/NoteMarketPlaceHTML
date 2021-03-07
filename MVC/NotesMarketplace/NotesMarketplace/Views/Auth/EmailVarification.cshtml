@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "EmailVarification";
+    Layout = "~/Views/Shared/_Auth.cshtml";
+}
+
+<div class="email-ver-bg">
+    <div class="contaier" id="email-ver">
+        <div class="row" id="email-ver-logo">
+            <div class="col-md-12">
+                <img src="../../images/User-Profile/logo.png" class="img-responsive" alt="Logo">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Email Verification</h1>
+                <h3>Dear @ViewBag.name,</h3>
+                <p>
+                    Thank you for Signup. <br />
+                    Please verify the email address via clicking on the link we sent you via email.
+                </p>
+                
+                <button type="button" class="btn btn-primary" id="email-ver-submit">LOGIN</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

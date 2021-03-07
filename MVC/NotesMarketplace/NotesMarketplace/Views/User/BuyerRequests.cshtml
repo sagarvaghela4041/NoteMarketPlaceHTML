@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "BuyerRequests";
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+@Scripts.Render("~/Scripts")
+@Scripts.Render("~/libs")
+
+<section id="section-first">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>Buyer Requests</h1>
+                <input type="search" placeholder="      Seach" id="search">
+                <button>SEARCH</button>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="buyerRequest">
+                <thead>
+                    <tr>
+                        <th scope="col">SR NO.</th>
+                        <th scope="col">NOTE TITLE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col">BUYER</th>
+                        <th scope="col">PHONE NO.</th>
+                        <th scope="col">SELL TYPE</th>
+                        <th scope="col">PRICE</th>
+                        <th scope="col">DOWNLOAD DATE/TIME</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/User/BuyerRequestsData",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    });
+    function OnSuccess(response) {
+
+
+
+        t = $("#buyerRequest").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var img = '<img src="../../images/images/eye.png" alt="View">' +
+                            '<div class="btn-group table-submenu">' +
+                            '<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                            '<img src="../../images/images/dots.png" alt="More">' +
+                            '</button>' +
+                            '<div class="dropdown-menu dropdown-menu-right submenu-right">' +
+                            '<button class="dropdown-item submenu-item" type="button"><a style="padding:0;" class="submenu-item" href="AllowDownload/' + data + '">Allow Download</a></button>' +
+                            '</div>' +
+                            '</div>'
+                        return img;
+                    }
+                }],
+                columns: [{ 'data': 'id' },
+                { 'data': 'NoteTitle' },
+                { 'data': 'NoteCategory' },
+                { 'data': 'Buyer' },
+                { 'data': 'PhoneNo' },
+                { 'data': 'SellType' },
+                { 'data': 'Price' },
+                { 'data': 'DonwloadedTime' },
+                { 'data': 'id' }]
+            });
+        $('#search').keyup(function () {
+            $("#section-first .section-first-heading input").css("background", "none");
+            t.search($(this).val()).draw();
+        })
+
+        $(".dataTables_filter").hide();
+        $('#buyerRequest_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#buyerRequest_paginate').addClass("pagination-area text-center");
+        $('#buyerRequest_previous').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+    };
+</script>
+

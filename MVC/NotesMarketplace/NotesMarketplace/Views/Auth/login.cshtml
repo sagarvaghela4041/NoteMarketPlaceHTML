@@ -1,0 +1,72 @@
+﻿@model NotesMarketplace.User
+@{
+    ViewBag.Title = "login";
+    Layout = "~/Views/Shared/_Auth.cshtml";
+}
+
+
+<div class="bg">
+
+    <div class="container" id="login-main">
+        <!-- Logo Image -->
+        <div class="row text-center" id="login-logo">
+            <div class="col-md-12">
+                <img src="../../images/pre-login/top-logo.png" alt="Logo">
+            </div>
+        </div>
+        <!-- Login wrapper -->
+        <div class="row" id="login-wrapper">
+            <div class="col-md-12 text-center" id="login-header">
+
+                <div class="col-md-12">
+                    <h1>Login</h1>
+                    <p>Enter your email and password to login</p>
+                </div>
+
+            </div>
+
+            <div class="row" id="login-form">
+                <div class="col-md-12">
+                    @using (Html.BeginForm("check", "Auth", FormMethod.Post)) {
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EmailID,"Email", new { @class = "login-label", @id = "login-label-email" })
+                            
+                            @Html.TextBoxFor(m => m.EmailID, new { @class = "form-control login-input", @id = "login-email", @placeholder = "Enter your email", @aria_describedby = "emailHelp" })
+                            <span id="login-error">
+                                @Html.ValidationMessageFor(m => m.EmailID, "", new { @class = "text-center" })
+                            </span>
+                            
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.LoginPassword, "Password", new { @class = "login-label", @id = "login-label-password" })
+                            <span id="login-forgot-password">@Html.ActionLink("Forgot Password?", "ForgetPassword")</span>
+                            @Html.PasswordFor(m => m.LoginPassword, new { @class = "form-control login-input", @id = "login-password", @placeholder = "Enter your password" })
+
+                            <span toggle="#login-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            <span id="login-error" >
+                                @Html.ValidationMessageFor(m => m.LoginPassword, "", new { @style="max-width:480px; margin-left:50px; display:block" })
+                            </span>
+                            <span id="login-error">@ViewBag.message</span>
+                        </div>
+                        <div class="form-group form-check">
+                            @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input", @id = "login-checkbox" })
+                            <label class="form-check-label" id="login-label-checkbox" for="login-checkbox">Remember Me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="login-submit">LOGIN</button>
+                    }
+                    <p id="login-reg-question" class="text-center">Don't have an account?
+                    <span>
+                        @Html.ActionLink("Sign Up", "Signup")
+                     </span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+

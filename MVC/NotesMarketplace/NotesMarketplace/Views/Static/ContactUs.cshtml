@@ -1,0 +1,72 @@
+﻿@model NotesMarketplace.ViewModels.ContactUs
+@{
+    ViewBag.Title = "ContactUs";
+    Layout = "~/Views/Shared/_Static.cshtml";
+}
+
+<section class="title-section-faq">
+    <div id="faq-main">
+        <h1>Contact Us</h1>
+    </div>
+</section>
+
+<section id="user-profile">
+    <div class="container" id="user-profile-form">
+        
+        @using (Html.BeginForm("ContactUs","Static", FormMethod.Post))
+        {
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">&nbsp;Get in Touch</h1>
+                    <p id="contact-us-p">Let us know how to get back to you</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FullName, new { @class = "user-profile-label" })
+                            @Html.TextBoxFor(m => m.FullName, new { @id = "profile-fn", @class="form-control user-profile-input", @placeholder="Enter your first name" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "user-profile-label" })
+                            @Html.TextBoxFor(m => m.Email, new { @id = "profile-email", @type = "email", @class="form-control user-profile-input", @aria_describedby="emailHelp", @placeholder="Enter your email address" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Subject, new { @class="user-profile-label" })
+                            @Html.TextBoxFor(m => m.Subject, new { @id = "profile-ln", @class = "form-control user-profile-input", @placeholder = "Enter your subject" })
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Comments, new { @class = "user-profile-label" })
+                            @Html.TextAreaFor(m => m.Comments, new { @id = "contact-us-comment", @placeholder = "   Comments..." })
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="contact-us-submit">SUBMIT</button>
+
+        }
+
+    </div>
+</section>
+

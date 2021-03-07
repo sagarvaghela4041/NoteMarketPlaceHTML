@@ -1,0 +1,167 @@
+﻿@model NotesMarketplace.NotesDetail
+@{
+    ViewBag.Title = "noteDetails";
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+<section id="notes-details">
+
+    <div class="container">
+        <div class="row">
+            <h3>Notes Details</h3>
+            <div class="col-md-6" id="notes-details-left">
+                <div class="col-md-5" id="notes-details-left-inner">
+                    @*<img src="../../images/Notes-Details/1.jpg" class="img-responsive" alt="Cover">*@
+                    <img src="/Uploads/@Path.GetFileName(Model.DisplayPicture)" class="img-responsive" alt="Cover">
+
+
+                    <div class="col-md-7" id="notes-details-more">
+
+                        <h1>@Model.Title</h1><br>
+                        <h4>@Model.Type.TypeName</h4><br>
+                        <p>@Model.Description</p><br>
+                        <button>
+                            @Html.ActionLink("Download / $" + Model.Price, "DownloadNote/" + Model.ID,"User",null,
+                               new { @style="text-decoration:none; color:#fff" })
+                        </button><br>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6" id="notes-details-right">
+
+                <span class="notes-details-label">Institution</span><span class="notes-details-ans">@Model.UniversityName</span><br><br>
+                <span class="notes-details-label">Country</span><span class="notes-details-ans">@Model.Country.CountryName</span><br><br>
+                <span class="notes-details-label">Course Name</span><span class="notes-details-ans">@Model.Course</span><br><br>
+                <span class="notes-details-label">Course Code</span><span class="notes-details-ans">@Model.CourseCode</span><br><br>
+                <span class="notes-details-label">Professor</span><span class="notes-details-ans">@Model.Professor</span><br><br>
+                <span class="notes-details-label">Number of Pages</span><span class="notes-details-ans">@Model.NumberOfPages</span><br><br>
+                <span class="notes-details-label">Approved Date</span><span class="notes-details-ans">@Model.PublishedDate</span><br><br>
+                <span class="notes-details-label">Rating</span>
+                <span class="notes-details-ans">
+                    <div class="rate">
+                        <input type="radio" id="star5" name="rate" value="5" />
+                        <label for="star5" title="text">5 stars</label>
+                        <input type="radio" id="star4" name="rate" value="4" checked />
+                        <label for="star4" title="text">4 stars</label>
+                        <input type="radio" id="star3" name="rate" value="3" />
+                        <label for="star3" title="text">3 stars</label>
+                        <input type="radio" id="star2" name="rate" value="2" />
+                        <label for="star2" title="text">2 stars</label>
+                        <input type="radio" id="star1" name="rate" value="1" />
+                        <label for="star1" title="text">1 star</label>
+                    </div>
+
+                    <span class="notes-details-ans">@ViewBag.reviewsCount reviews</span>
+
+                </span><br><br><br>
+                @ViewBag.averageRating Average rating
+                <p id="notes-details-report">5 Users marked this as inappropriate</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+<hr>
+
+<section id="notes-preview">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5" id="notes-preview-left">
+                <h1>Notes Preview</h1>
+                <iframe src="/Uploads/@Path.GetFileName(Model.NotePreview)">
+                </iframe>
+            </div>
+
+            <h1>Customer Reviews</h1>
+            <div class="col-md-7" id="notes-preview-right">
+
+                <div class="col-md-12 notes-review notes-review-border-1">
+                    <div class="col-md-2" id="notes-review-left">
+                        
+                        <img src="~/Uploads/@Path.GetFileName(ViewBag.raters[0].ProfilePicture)" alt="Customer-image">
+                    </div>
+                    <div class="col-md-10" id="notes-review-right">
+                        <h3>@ViewBag.raters[0].User.FirstName</h3>
+                        <span class="notes-details-ans">
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="text">5 stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" checked />
+                                <label for="star4" title="text">4 stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="text">3 stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="text">2 stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="text">1 star</label>
+                            </div>
+                        </span>
+                        @ViewBag.reviews[0].Ratings
+                        <br>
+                        <p>@ViewBag.reviews[0].Comments</p>
+                    </div>
+                </div>
+
+                <div class="col-md-12 notes-review notes-review-border-2">
+                    <div class="col-md-2" id="notes-review-left">
+                        <img src="~/Uploads/@Path.GetFileName(ViewBag.raters[1].ProfilePicture)" alt="Customer-image">
+                    </div>
+                    <div class="col-md-10" id="notes-review-right">
+                        <h3>@ViewBag.raters[1].User.FirstName</h3>
+                        <span class="notes-details-ans">
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="text">5 stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" checked />
+                                <label for="star4" title="text">4 stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="text">3 stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="text">2 stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="text">1 star</label>
+                            </div>
+                        </span>
+                        @ViewBag.reviews[1].Ratings
+                        <br>
+                        <p>@ViewBag.reviews[1].Comments</p>
+                    </div>
+                </div>
+
+                <div class="col-md-12 notes-review">
+                    <div class="col-md-2" id="notes-review-left">
+                        <img src="~/Uploads/@Path.GetFileName(ViewBag.raters[2].ProfilePicture)" alt="Customer-image">
+                    </div>
+                    <div class="col-md-10" id="notes-review-right">
+                        <h3>@ViewBag.raters[2].User.FirstName</h3>
+                        <span class="notes-details-ans">
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="text">5 stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" checked />
+                                <label for="star4" title="text">4 stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="text">3 stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="text">2 stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="text">1 star</label>
+                            </div>
+                        </span>
+                        @ViewBag.reviews[2].Ratings
+                        <br>
+                        <p>@ViewBag.reviews[2].Comments</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+

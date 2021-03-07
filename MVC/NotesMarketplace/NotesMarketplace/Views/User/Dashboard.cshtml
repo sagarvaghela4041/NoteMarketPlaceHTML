@@ -1,0 +1,327 @@
+﻿@model NotesMarketplace.ViewModels.Dashboard
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+@Scripts.Render("~/Scripts")
+@Scripts.Render("~/libs")
+
+<section id="dashboard-stats">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="dashboard-heading">
+                    <h1>Dashboard</h1>
+                    <button>@Html.ActionLink("ADD NOTE", "AddNotes")</button>
+                </div>
+                <div class="col-md-7" id="dashboard-left">
+
+                    <div class="col-md-3 text-center" id="dashboard-earnings-label">
+
+                        <img src="../../images/images/my-earning.png" alt="My Earning"><br>
+                        <h2>My Earning</h2>
+
+                    </div>
+                    <div class="col-md-9 text-center" id="dashboard-earnings-stats">
+
+                        <div class="col-md-6 dashboard-earnings-stats-inner">
+
+                            <h3>@Model.NumberOfSoldNotes</h3>
+                            <p>Number of Notes Sold</p>
+
+                        </div>
+                        <div class="col-md-6 dashboard-earnings-stats-inner">
+
+                            <h3>$ @Model.MoneyEarned</h3>
+                            <p>Money Earned</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6" id="dashboard-right">
+
+                    <div class="col-md-4 dashboard-user text-center">
+                        <h3>@Model.MyDownloads</h3>
+                        <p>My Downloads</p>
+                    </div>
+                    <div class="col-md-4 dashboard-user text-center">
+                        <h3>@Model.MyRejectedNotes</h3>
+                        <p>My Rejected Notes</p>
+                    </div>
+                    <div class="col-md-4 dashboard-user text-center">
+                        <h3>@Model.BuyerRequests</h3>
+                        <p>Buyer Request</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</section>
+
+
+
+<!-- In Progress Notes -->
+<section id="section-first" style="margin-top: 0; margin-bottom: 0;">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>In Progress Notes</h1>
+                <input type="search" placeholder="      Seach" id="search">
+                <button>SEARCH</button>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="inProgressNotes">
+                <thead>
+                    <tr>
+                        <th scope="col">ADDED DATE</th>
+                        <th scope="col">TITLE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">ACTIONS</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/User/InProgressNotes",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                setTimeout(OnSuccess(response), 0);
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    });
+    function OnSuccess(response) {
+
+        t = $("#inProgressNotes").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        if (row["Status"] == "Draft") {
+                            var id = row["id"];
+                            var img = '<a href="EditNote/'+id+'"><img src="../../images/images/edit.png" style="margin-right:10px"  alt="Edit"></a>' +
+                                '<a href="DeleteNote/' + id +'"><img src="../../images/images/delete.png" alt="Delete"></a>'
+                            return img;
+                        }
+                        else {
+                            var id = row["id"];
+                            var img = '<a href="NoteDetails/' + id +'"><img src="../../images/images/eye.png" style="margin-left:10px" alt="View"></a>'
+                            return img;
+                        }
+                    }
+                }],
+                columns: [{ 'data': 'AddedDate' },
+                    { 'data': 'Title' },
+                    { 'data': 'Category' },
+                    { 'data': 'Status' },
+                { 'data': 'id' }]
+            });
+        $('#search').keyup(function () {
+            $(this).css("background", "none");
+            t.search($(this).val()).draw();
+        })
+
+        $(".dataTables_filter").hide();
+        $('#inProgressNotes_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#inProgressNotes_paginate').addClass("pagination-area text-center");
+        $('#inProgressNotes_previous').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+    };
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Published Notes -->
+<section id="section-first" style="margin-top: -60px;">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>Published Notes</h1>
+                <input  type="search" placeholder="      Seach" id="searchPublishedNotes">
+                <button>SEARCH</button>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="publishedNotes">
+                <thead>
+                    <tr>
+                        <th scope="col">ADDED DATE</th>
+                        <th scope="col">TITLE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col">SELL TYPE</th>
+                        <th scope="col">PRICE</th>
+                        <th scope="col">ACTIONS</th>
+                    </tr>
+                </thead>
+                
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/User/PublishedNotes",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                setTimeout(OnSuccess2(response), 0);
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    });
+    function OnSuccess2(response) {
+
+        
+
+        t2 = $("#publishedNotes").DataTable(
+            {
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var id = row["id"];
+                        var img = '<a href="NoteDetails/' + id + '"><img src="../../images/images/eye.png" style="margin-left:10px" alt="View"></a>'
+                        return img;
+                    }
+                }],
+                columns: [{ 'data': 'AddedDate' },
+                { 'data': 'Title' },
+                { 'data': 'Category' },
+                    { 'data': 'SellType' },
+                    { 'data': 'Price'},
+                { 'data': '' }]
+            });
+        $('#searchPublishedNotes').keyup(function () {
+            $(this).css("background", "none");
+            t2.search($(this).val()).draw();
+        })
+
+        $(".dataTables_filter").hide();
+        $('#publishedNotes_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#publishedNotes_paginate').addClass("pagination-area text-center");
+        $('#publishedNotes_previous').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+    };
+</script>
+

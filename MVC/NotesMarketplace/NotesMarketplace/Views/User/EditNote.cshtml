@@ -1,0 +1,195 @@
+﻿@model NotesMarketplace.ViewModels.Addnotes
+@{
+    ViewBag.Title = "addNotes";
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+<section class="title-section">
+    <h1>Add Notes</h1>
+</section>
+
+<section id="user-profile">
+    <div class="container" id="user-profile-form">
+        @using (Html.BeginForm("SaveNotes", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">Basic Note Details</h1>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        @Html.LabelFor(m => m.notesDetail.Title, "Title *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.notesDetail.Title, new { @id = "profile-fn", @class = "form-control user-profile-input", @placeholder = "Enter your notes title" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.notesDetail.Category, "Category *", new { @class = "user-profile-label" })
+                        <br />
+                        @Html.DropDownListFor(m => m.notesDetail.Category, new SelectList(ViewBag.categoryList, "CategoryID", "CategoryName"), "Select your category", new { @name = "profile-gender", @id = "profile-gender" })
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="displayPicture" class="user-profile-label">Display Picture</label><br>
+                        <label for="displayPicture" id="profile-upload-label-img">
+                            <img src="../../images/User-Profile/upload.png" alt="Upload File Here"><span>Uppload a picture</span>
+                        </label>
+                        <input type="file" class="form-control profile-upload" id="displayPicture" name="displayPicture">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="notes" class="user-profile-label">Upload Notes *</label><br>
+                        <label for="notes" id="profile-upload-label-img">
+                            <img src="../../images/images/upload-note.png" alt="Upload File Here"><span>Uppload your notes</span>
+                        </label>
+                        <input type="file" class="form-control profile-upload" id="notes" name="notes">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.notesDetail.Type, new { @class = "user-profile-label" })
+                        <br />
+                        @Html.DropDownListFor(m => m.notesDetail.Type, new SelectList(ViewBag.typeList, "TypeID", "TypeName"), "Select your note type", new { @name = "profile-gender", @id = "profile-gender" })
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.notesDetail.NumberOfPages, new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.notesDetail.NumberOfPages, new { @id = "profile-fn", @class = "form-control user-profile-input", @placeholder = "Enter number of notes pages" })
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.notesDetail.Description, "Description *", new { @class = "user-profile-label" })
+                        @Html.TextAreaFor(m => m.notesDetail.Description, new { @class = "form-control user-profile-input add-notes-description", @placeholder = "Enter your description" })
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">Institution information</h1>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.notesDetail.Country, new { @class = "user-profile-label" })
+                        @Html.DropDownListFor(m => m.notesDetail.Country, new SelectList(ViewBag.countryList, "CountryId", "CountryName"), "Select yout country", new { @name = "profile-gender", @id = "profile-gender" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.notesDetail.UniversityName, new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.notesDetail.UniversityName, new { @id = "profile-college", @class = "form-control user-profile-input", @placeholder = "Enter your institution name" })
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">Course Details</h1>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.notesDetail.Course, new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.notesDetail.Course, new { @id = "profile-college", @class = "form-control user-profile-input", @placeholder = "Enter your course name" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.notesDetail.CourseCode, new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.notesDetail.CourseCode, new { @id = "profile-college", @class = "form-control user-profile-input", @placeholder = "Enter your course code" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.notesDetail.Professor, new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.notesDetail.Professor, new { @id = "profile-college", @class = "form-control user-profile-input", @placeholder = "Enter your professor name" })
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">Selling Information</h1>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.notesDetail.IsPaid, "Sell For *", new { @class = "user-profile-label" })
+                            <div class="add-notes-type">
+                                @Html.RadioButtonFor(m => m.notesDetail.IsPaid, "free", new { @class = "sell-type-radio", @type = "radio", @id = "free", @name = "sell-type", @value = "Free" })
+                                <label for="free">Free</label>
+                                @Html.RadioButtonFor(m => m.notesDetail.IsPaid, "paid", new { @class = "sell-type-radio", @type = "radio", @id = "paid", @name = "sell-type", @value = "Paid" })
+                                <label for="paid">Paid</label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.notesDetail.Price, "Sell Price *", new { @class = "user-profile-label" })
+                            @Html.TextBoxFor(m => m.notesDetail.Price, new { @id = "profile-college", @class = "form-control user-profile-input", @placeholder = "Enter your course name" })
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="notePreview" class="user-profile-label">Notes Preview</label><br><br>
+                        <label for="notePreview" id="profile-upload-label-img">
+                            <img src="../../images/User-Profile/upload.png" alt="Upload File Here"><span>Uppload a file</span>
+                        </label>
+                        <input type="file" class="form-control profile-upload" id="notePreview" name="notePreview">
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-12">
+                @*<button type="submit" class="profile-submit">SAVE</button>
+                    <button type="submit" class="profile-submit">PUBLISH</button>*@
+                <input type="submit" name="submitButton" class="profile-submit" value="SAVE">
+                <input type="submit" name="submitButton" class="profile-submit" value="PUBLISH">
+            </div>
+        }
+    </div>
+</section>
+
