@@ -141,7 +141,7 @@ namespace NotesMarketplace.Controllers
             var varifyUrl = "http" + "://" + "localhost" + ":" + "4421" + "/Auth/VarifyEmail/"+id +"/" + activationcode;
             var fromMail = new MailAddress("sagar.new4041@gmail.com", "Notes Marketplace");
             var toMail = new MailAddress(emailId);
-            var frontEmailPassowrd = "Sagar@211099";
+            var frontEmailPassowrd = "NotActualPassword";
             string subject = "Note Marketplace - Email Verification";
             string body = "<br/><br/>We are excited to tell you that your account is" +
               " successfully created. Please click on the below link to verify your account" +
@@ -168,12 +168,12 @@ namespace NotesMarketplace.Controllers
 
         private string SendPassword(string emailId)
         {
-            string newPassword = "123456";
+            string newPassword = "Abc@1234";
 
             //var varifyUrl = "http" + "://" + "localhost" + ":" + "4421" + "/Auth/VarifyEmail/" + id + "/" + activationcode;
             var fromMail = new MailAddress("sagar.new4041@gmail.com", "Notes Marketplace");
             var toMail = new MailAddress(emailId);
-            var frontEmailPassowrd = "Sagar@211099";
+            var frontEmailPassowrd = "NotActualPassword";
             string subject = "New Temporary Password has been created for you";
             string body = "<br/><br/>Hello, <br/><br/>" +
               "We have generated a new password for you <br/><br/>" +
