@@ -33,6 +33,8 @@ namespace NotesMarketplace.Controllers
             ModelState.Remove("LastName");
             ModelState.Remove("Password");
             ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("NewPassword");
+            ModelState.Remove("ConfirmNewPassword");
             if (!ModelState.IsValid)
             {
                 return View("login");
@@ -54,10 +56,20 @@ namespace NotesMarketplace.Controllers
                             cookie.Expires = DateTime.Now.AddDays(15);
                             Response.Cookies.Add(cookie);
                         }
-                        return RedirectToAction("Dashboard", "User");
+
+                        UserInfo userInfo = data.UserInfoes.Where(i => i.UserID == u.UserID).FirstOrDefault();
+                        if (userInfo == null)
+                        {
+                            return RedirectToAction("MyProfile", "User");
+                        }
+                        else
+                        {
+                            return RedirectToAction("SearchNotes", "User");
+                        }
                     }
                     else
                     {
+                        SendVerificationLinkEmail(u.EmailID, u.UserID, u.Password);
                         return View("EmailVarification");
                     }
                 }
@@ -79,6 +91,9 @@ namespace NotesMarketplace.Controllers
         [Route("Auth/Save")]
         public ActionResult Save([Bind(Include = "FirstName,LastName,EmailID,Password,ConfirmPassword")] User user)
         {
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("NewPassword");
+            ModelState.Remove("ConfirmNewPassword");
             if (!ModelState.IsValid)
             {
                 return View("Signup");
@@ -88,6 +103,10 @@ namespace NotesMarketplace.Controllers
                 user.RoleID = 3;
                 user.IsEmailVerified = false;
                 user.IsActive = true;
+                /* To buypass validation Error*/
+                user.NewPassword = "Sagar@211099";
+                user.ConfirmNewPassword = "Sagar@211099";
+                /**/
                 data.Users.Add(user);
                 data.SaveChanges();
 
@@ -106,13 +125,17 @@ namespace NotesMarketplace.Controllers
             User u = data.Users.Find(id);
             if (u.Password.Equals(activationcode))
             {
+                u.ConfirmPassword = u.Password;
+                u.NewPassword = "Sagar@211099";
+                u.ConfirmNewPassword = "Sagar@211099";
                 u.IsEmailVerified = true;
+                data.Entry(u).State = System.Data.Entity.EntityState.Modified;
                 data.SaveChanges();
                 return RedirectToAction("Login");
             }
             else
             {
-                return Content("Lol");
+                return Content("You can't do this...");
             }
         }
 
@@ -128,6 +151,9 @@ namespace NotesMarketplace.Controllers
             string newPassword = SendPassword(u.EmailID);
             User user = data.Users.Where(m => m.EmailID.Equals(u.EmailID)).FirstOrDefault();
             user.Password = newPassword;
+            user.ConfirmPassword = newPassword;
+            user.NewPassword = newPassword;
+            user.ConfirmNewPassword = newPassword;
             data.SaveChanges();
             return RedirectToAction("Login");
         }
@@ -141,7 +167,7 @@ namespace NotesMarketplace.Controllers
             var varifyUrl = "http" + "://" + "localhost" + ":" + "4421" + "/Auth/VarifyEmail/"+id +"/" + activationcode;
             var fromMail = new MailAddress("sagar.new4041@gmail.com", "Notes Marketplace");
             var toMail = new MailAddress(emailId);
-            var frontEmailPassowrd = "NotActualPassword";
+            var frontEmailPassowrd = "";
             string subject = "Note Marketplace - Email Verification";
             string body = "<br/><br/>We are excited to tell you that your account is" +
               " successfully created. Please click on the below link to verify your account" +
@@ -168,12 +194,27 @@ namespace NotesMarketplace.Controllers
 
         private string SendPassword(string emailId)
         {
-            string newPassword = "Abc@1234";
+            string capital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string small = "abcdefghijklmnopqrstuvwxyz";
+            string symbol = "~!@#$%^&()";
+            string newPassword = "";
+            
+            Random r = new Random();
+            newPassword += capital.ToCharArray()[r.Next(0,25)];
+            newPassword += small.ToCharArray()[r.Next(0,25)];
+            newPassword += symbol.ToCharArray()[r.Next(0,9)];
+            newPassword += r.Next(0, 9);
+            newPassword += small.ToCharArray()[r.Next(0, 25)];
+            newPassword += capital.ToCharArray()[r.Next(0, 25)];
+            newPassword += small.ToCharArray()[r.Next(0, 25)];
+            newPassword += capital.ToCharArray()[r.Next(0, 25)];
+
+            /*newPassword = System.Web.Security.Membership.GeneratePassword(8, 1);*/
 
             //var varifyUrl = "http" + "://" + "localhost" + ":" + "4421" + "/Auth/VarifyEmail/" + id + "/" + activationcode;
-            var fromMail = new MailAddress("sagar.new4041@gmail.com", "Notes Marketplace");
+           var fromMail = new MailAddress("sagar.new4041@gmail.com", "Notes Marketplace");
             var toMail = new MailAddress(emailId);
-            var frontEmailPassowrd = "NotActualPassword";
+            var frontEmailPassowrd = "";
             string subject = "New Temporary Password has been created for you";
             string body = "<br/><br/>Hello, <br/><br/>" +
               "We have generated a new password for you <br/><br/>" +
@@ -209,5 +250,43 @@ namespace NotesMarketplace.Controllers
             Session.Remove("userId");
             return RedirectToAction("Login");
         }
-    }
+
+        [Route("Auth/ChangePassword")]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Route("Auth/UpdatePassword")]
+        public ActionResult UpdatePassword(User user)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+            else
+            {
+                int userId = (int)Session["userID"];
+                User currentUser = data.Users.Find(user.UserID);
+                if (user.Password.Equals(currentUser.Password))
+                {
+                    currentUser.Password = user.NewPassword;
+                    currentUser.ConfirmPassword = user.NewPassword;
+                    currentUser.NewPassword = user.NewPassword;
+                    currentUser.ConfirmNewPassword = user.NewPassword;
+                    data.Entry(currentUser).State = System.Data.Entity.EntityState.Modified;
+                    data.SaveChanges();
+                    return RedirectToAction("Login", "Auth");
+                }
+                else
+                {
+                    return Content("The Old Password Not Matched !!!");
+                    //return RedirectToAction("ChangePassword", "Auth");
+                }
+            }
+            }
+
+
+
+        }
 }

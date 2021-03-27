@@ -12,6 +12,7 @@ namespace NotesMarketplace
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class NotesDetail
     {
@@ -50,7 +51,17 @@ namespace NotesMarketplace
         public Nullable<System.DateTime> DateModified { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public bool IsActive { get; set; }
-    
+
+        [NotMapped]
+        public int AverageRatings { get; set; }
+
+        [NotMapped]
+        public int NumberOfRatings { get; set; }
+
+        [NotMapped]
+        public int NumberOfSpamReports { get; set; }
+
+
         public virtual Category Category { get; set; }
         public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

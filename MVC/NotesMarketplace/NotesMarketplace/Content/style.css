@@ -1263,6 +1263,7 @@ pages {with extra image after navbar}:
     color: #deb217;
 }
 
+
 .rate > input:checked + label:hover,
 .rate > input:checked + label:hover ~ label,
 .rate > input:checked ~ label:hover,
@@ -2173,28 +2174,33 @@ table.dataTable tbody td {
 /*========================================================
                      Add-Review
 ========================================================*/
-#add-review-modal #modal-add-review * {
+#add-review-modal #modal-add-review *,
+#report-issue-modal #modal-add-review * {
     padding: 0;
 }
 
-#add-review-modal #modal-add-review {
+#add-review-modal #modal-add-review,
+#report-issue-modal #modal-add-review, {
     margin: 200px 0 0 0;
-    background: fff;
+    background: #fff;
     width: 580px;
     height: 426px;
 }
 
-#add-review-modal #modal-add-review .modal-header {
+#add-review-modal #modal-add-review .modal-header,
+#report-issue-modal #modal-add-review .modal-header {
     border-bottom: 0;
 }
 
-#add-review-modal #modal-add-review .modal-header img {
+#add-review-modal #modal-add-review .modal-header img,
+#report-issue-modal #modal-add-review .modal-header img {
     margin: 30px 10px 0 0;
     width: 18px;
     height: 18px;
 }
 
-#add-review-modal #modal-add-review h1 {
+#add-review-modal #modal-add-review h1,
+#report-issue-modal #modal-add-review h1 {
     margin: 30px 0 0px 50px;
     font-size: 24px;
     font-weight: 600;
@@ -2248,11 +2254,12 @@ table.dataTable tbody td {
     color: #c59b08;
 }
 
-#add-review-comment {
+#add-review-comment{
     margin: 40px 0 10px 50px;
 }
 
-#add-review-modal textarea {
+#add-review-modal textarea,
+#report-issue-modal textarea {
     margin: 0 50px 30px 50px;
     font-size: 16px;
     font-weight: 400;
@@ -2263,7 +2270,8 @@ table.dataTable tbody td {
 }
 
 
-#add-review-modal .modal-body button {
+#add-review-modal .modal-body button,
+#report-issue-modal .modal-body button {
     margin: 30px 0 30px 50px;
     background-color: #6255a5;
     width: 150px;

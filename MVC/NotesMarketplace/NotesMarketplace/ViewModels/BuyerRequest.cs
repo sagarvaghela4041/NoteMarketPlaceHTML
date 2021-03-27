@@ -7,9 +7,11 @@ namespace NotesMarketplace.ViewModels
 {
     public class BuyerRequest
     {
+        public int SrNo { get; set; }
         public int id { get; set; }
         public string NoteTitle { get; set; }
 
+        public int NoteId { get; set; }
         public string NoteCategory { get; set; }
 
         public string Buyer { get; set; }

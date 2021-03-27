@@ -1,0 +1,193 @@
+﻿@model NotesMarketplace.UserInfo
+@{
+    ViewBag.Title = "MyProfile";
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+<section class="title-section">
+    <h1>User Profile</h1>
+</section>
+
+<section id="user-profile">
+    <div class="container" id="user-profile-form">
+        @using (Html.BeginForm("SaveProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(m => m.ID)
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">Basic Profile Details</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FirstName, "First Name *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.FirstName, new { @id = "profile-fn", @class = "form-control user-profile-input", @placeholder = "Enter your first name" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.LastName, "Last Name *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.LastName, new { @id = "profile-ln", @class = "form-control user-profile-input", @placeholder = "Enter your last name" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SecondaryEmailID, "Email *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.SecondaryEmailID, new { @id = "profile-email", @type = "email", @class = "form-control user-profile-input", @aria_describedby = "emailHelp", @placeholder = "Enter your email address" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DateOfBirth, "Date Of Birth", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @id = "profile-dob", @type = "date", @class = "form-control user-profile-input", @placeholder = "Enter your date of birth" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Gender, "Gender", new { @class = "user-profile-label" })
+                        @Html.DropDownListFor(m => m.Gender, new List<SelectListItem>
+                                {
+                                   new SelectListItem{ Text="Male", Value = "male" },
+                                   new SelectListItem{ Text="Female", Value = "female" },
+                                   new SelectListItem{ Text="Other", Value = "other" },
+                                }, new { @name = "profile-gender", @id = "profile-gender" })
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        @Html.LabelFor(m => m.PhoneNumber, new { @class = "user-profile-label", @for = "profile-phone" })
+                        <br />
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.CountryCode, new List<SelectListItem> {
+                                        new SelectListItem{ Text="+91", Value="91"},
+                                        new SelectListItem{ Text="Other", Value="0"},
+                                }, new { @id = "profile-phone-code" })
+                        </div>
+                        <div class="col-md-10 profile-phone-div">
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @id = "profile-phone", @class = "form-control user-profile-input", @placeholder = "Enter your phone number" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.file, "Profile Picture", new { @for = "profileUpload", @class = "user-profile-label" })
+                        <br>
+                        <label for="profileUpload" id="profile-upload-label-img">
+                            <img src="../../images/User-Profile/upload.png" alt="Upload File Here">
+                            @{
+                                if (Model.ProfilePicture == null || Model.ProfilePicture.Equals(""))
+                                {
+                                    <span id="profileUploadName">Uppload a picture</span>
+                                }
+                                else
+                                {
+                                    <span id="profileUpload">@Path.GetFileName(Model.ProfilePicture)</span>
+                                }
+                            }
+                            
+                        </label>
+                        @Html.TextBoxFor(m => m.file, new { @type = "file", @class="form-control profile-upload", @id="profileUpload", @name="file"})
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">Address Details</h1>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.AddressLine1, "Address Line 1 *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.AddressLine1, new { @id = "profile-address-1", @class = "form-control user-profile-input", @placeholder = "Enter your address" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.AddressLine2, "Address Line 2 ", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.AddressLine2, new { @id = "profile-address-2", @class = "form-control user-profile-input", @placeholder = "Enter your address" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.City, "City *", new { @class = "user -profile-label" })
+                        @Html.TextBoxFor(m => m.City, new { @id = "profile-city", @class = "form-control user-profile-input", @placeholder = "Enter your city" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.State, "State *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.State, new { @id = "profile-state", @class = "form-control user-profile-input", @placeholder = "Enter your State" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ZipCode, "ZipCode *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.ZipCode, new { @id = "profile-zip", @class = "form-control user-profile-input", @placeholder = "Enter your zipcode" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Country, "Country *", new { @class = "user-profile-label" })
+                        @Html.DropDownListFor(m => m.Country, new SelectList(ViewBag.countryList, "CountryId", "CountryName"), "Select yout country", new { @name = "profile-country", @id = "profile-country" })
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">University and college information</h1>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.University, "University", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.University, new { @id = "profile-university", @class = "form-control user-profile-input", @placeholder = "Enter your university" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.College, "College", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.College, new { @id = "profile-college", @class = "form-control user-profile-input", @placeholder = "Enter your college" })
+                    </div>
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary profile-submit">SUBMIT</button>
+        }
+    </div>
+</section>
+
+@Scripts.Render("~/Scripts")
+<script type="text/javascript">
+    $(function () {
+        $('#profileUpload').change(function () {
+            var profileUploadName = this.files[0]['name'];
+            $('#profileUploadName').html(profileUploadName);
+        });
+
+    });
+</script>

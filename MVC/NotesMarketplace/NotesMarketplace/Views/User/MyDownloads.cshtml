@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "MyDownloads";
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+@Scripts.Render("~/Scripts")
+@Scripts.Render("~/libs")
+
+<section id="section-first">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>My Downloads</h1>
+                <input type="search" placeholder="      Seach" id="search">
+                <button>SEARCH</button>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="myDownloads">
+                <thead>
+                    <tr>
+                        <th scope="col">SR NO.</th>
+                        <th scope="col">NOTE TITLE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col">BUYER</th>
+                        <th scope="col">SELL TYPE</th>
+                        <th scope="col">PRICE</th>
+                        <th scope="col">DOWNLOAD DATE/TIME</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+
+
+    </div>
+
+</section>
+
+<!-- Modal for add review -->
+<div class="modal fade" id="add-review-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" id="modal-add-review">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><img id="thanks-close" src="../../images/Notes-Details/close.png" alt="Close"></button>
+                <h1>Add Review</h1>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("AddReview", "User", FormMethod.Post))
+                {
+                    <div>
+                        <div class="rate" id="add-review-rate">
+                            <input type="radio" id="star5" name="rate" value="5" />
+                            <label for="star5" title="text">5 stars</label>
+                            <input type="radio" id="star4" name="rate" value="4" />
+                            <label for="star4" title="text">4 stars</label>
+                            <input type="radio" id="star3" name="rate" value="3" />
+                            <label for="star3" title="text">3 stars</label>
+                            <input type="radio" id="star2" name="rate" value="2" />
+                            <label for="star2" title="text">2 stars</label>
+                            <input type="radio" id="star1" name="rate" value="1" />
+                            <label for="star1" title="text">1 star</label>
+                        </div>
+                    </div>
+                    <br><br><br><br>
+                    <input type="hidden" id="downloadID" name="downloadID" />
+                    <label id="add-review-comment">Comments *</label><br>
+                    <textarea placeholder="   Comments..." name="comments"></textarea>
+                    <button>SUBMIT</button>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal for report issue -->
+<div class="modal fade" id="report-issue-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" id="modal-add-review">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><img id="thanks-close" src="../../images/Notes-Details/close.png" alt="Close"></button>
+                <h1 id="noteTitle">NoteTitle</h1>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("ReportIssue", "User", FormMethod.Post))
+                {
+                    <input type="hidden" id="downloadID2" name="downloadID2" />
+                    <label id="add-review-comment">Remarks *</label><br>
+                    <textarea placeholder="   Comments..." name="comments"></textarea>
+                    <button onclick="ConfirmFunction()" type="submit">Report an issue</button>
+                    <button data-dismiss="modal">Cancel</button>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/User/MyDownloadsData",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+
+
+    });
+    function OnSuccess(response) {
+
+
+
+        t = $("#myDownloads").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var img = '<div style="display:flex; align-items:center">' +
+                            '<a href="NoteDetails/' + data + '"><img src="../../images/images/eye.png" alt="View" ></a>' +
+                            '<div class="btn-group table-submenu">' +
+                            '<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                            '<img src="../../images/images/dots.png" alt="More">' +
+                            '</button>' +
+                            '<div class="dropdown-menu dropdown-menu-right submenu-right">' +
+                            '<button class="dropdown-item submenu-item" type="button"><a href="DownloadNoteById/' + data + '" class="submenu-item" style="padding:0">Download Note</a></button>' +
+                            '<button onclick="fun1(this)" class="dropdown-item submenu-item btn btn-info" data-toggle="modal" data-target="#add-review-modal" id="addReview" type="button" data-id="' + row['downloadId'] + '">Add Reviews/Feedback</button>' +
+                            '<button onclick="fun2(this)" class="dropdown-item submenu-item" data-toggle="modal" data-target="#report-issue-modal" id="reportIssue" type="button" data-id="' + row['downloadId'] + '" data-title="' + row['NoteTitle']+'">Report as Inappropriate</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
+                        return img;
+                    }
+                }],
+                columns: [{ 'data': 'SrNo' },
+                { 'data': 'NoteTitle' },
+                { 'data': 'Category' },
+                { 'data': 'Seller' },
+                { 'data': 'SellType' },
+                { 'data': 'Price' },
+                { 'data': 'DownloadDateTime' },
+                { 'data': 'id' }]
+            });
+        $('#search').keyup(function () {
+            $("#section-first .section-first-heading input").css("background", "none");
+            t.search($(this).val()).draw();
+        })
+
+        $(".dataTables_filter").hide();
+        $('#myDownloads_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#myDownloads_paginate').addClass("pagination-area text-center");
+        $('#myDownloads_paginate').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+        
+    };
+
+    function ConfirmFunction() {
+        var confirmBox = confirm("Are you sure you want to mark this report as spam, you cannot update it later? ");
+        if (!confirmBox) {
+            event.preventDefault();
+        }
+    }
+
+    function fun1(e) {
+        var addReviewId = $(e).data('id');
+        $('#downloadID').val(addReviewId);
+    }
+
+    function fun2(e) {
+        var spamReportTitle = $(e).data('title');
+        var spamReportId = $(e).data('id');
+        $('#noteTitle').html(spamReportTitle);
+        $('#downloadID2').val(spamReportId);
+    }
+    
+</script>
+
+
+

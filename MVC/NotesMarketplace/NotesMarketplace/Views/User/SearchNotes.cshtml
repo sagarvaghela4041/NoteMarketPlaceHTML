@@ -1,0 +1,179 @@
+﻿@model PagedList.IPagedList<NotesDetail>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "SearchNotes";
+    Layout = ViewBag.layout;
+    String format = "ddd, MMM dd yyyy";
+}
+
+@Scripts.Render("~/Scripts")
+@Scripts.Render("~/libs")
+
+
+
+<section class="title-section-search">
+    <div id="home-main">
+        <h1>Search Notes</h1>
+    </div>
+</section>
+
+<section id="search">
+
+    <div class="container" style="width: 97%;">
+        <div class="row">
+            <h1>Search and Filter notes</h1>
+            @using (Html.BeginForm("SearchNotes","User",FormMethod.Post))
+            {
+            <div class="filter-notes">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        @Html.TextBox("search","", new { @class="form-control", @name="search", @id="input-search", @placeholder="Search notes here..."})
+                        <img class="search-icon" src="../../images/images/search-icon.png" alt="search">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-sm-4 col-xs-6">
+                        @Html.DropDownList("type", (SelectList)ViewBag.type, "Select type", new { @id = "input-type", @name = "type", @class="form-control", @onchange = "this.form.submit()" })                        
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6">
+                        @Html.DropDownList("category",(SelectList)ViewBag.category, "Select category", new { @id = "input-category", @name = "category", @class="form-control", @onchange = "this.form.submit()" })
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6">
+                        @Html.DropDownList("university", (SelectList)ViewBag.university, "Select University", new { @id = "input-university", @name = "university", @class="form-control", @onchange = "this.form.submit()" })
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6">
+                        @Html.DropDownList("course", (SelectList)ViewBag.course, "Select Course", new { @id = "input-course", @name = "course", @class="form-control", @onchange = "this.form.submit()" })
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6">
+                        @Html.DropDownList("country", (SelectList)ViewBag.country, "Select Country", new { @id = "input-country", @name = "country", @class="form-control", @onchange = "this.form.submit()" })
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6">
+                        @Html.DropDownList("rating", (List<SelectListItem>)ViewBag.rating,"Select Rating", new { @id = "input-rating", @name = "rating", @class="form-control", @onchange = "this.form.submit()" })
+                    </div>
+                </div>
+            </div>
+            
+            }
+        </div>
+
+        <div class="row">
+
+            <div id="search-result-main">
+
+                <h1>Total @ViewBag.TotalNotes notes</h1>
+
+                <div class="col-md-12" id="search-result-inner">
+                    @foreach (NotesDetail note in Model)
+                    {
+                        <a href="NoteDetails/@note.ID">
+                        <div class="col-md-4 search-result-item">
+
+                            <img src="/Uploads/@Path.GetFileName(note.DisplayPicture)" alt="Notes Image" class="img-responsive">
+                            <div class="result-details">
+                                <h3>@note.Title</h3>
+                                <div class="result-details-text-main">
+                                    <i class="fa fa-university"></i><span class="result-details-text">@note.UniversityName, @note.Country.CountryName</span><br>
+                                    <i class="fa fa-book"></i><span class="result-details-text">@note.NumberOfPages Pages</span><br>
+                                    <i class="fa fa-calendar"></i><span class="result-details-text">@note.PublishedDate.ToString(format)</span><br>
+
+                                    <i class="fa fa-flag-o"></i><span class="result-details-text search-result-flag">@note.NumberOfSpamReports Users marked this as inappropriate</span>
+                                </div>
+
+                                <div class="rate">
+                                    @*<input type="radio" id="star5" name="rate" value="5" />
+        <label for="star5" title="text">5 stars</label>
+        <input type="radio" id="star4" name="rate" value="4" />
+        <label for="star4" title="text">4 stars</label>
+        <input type="radio" id="star3" name="rate" value="3" />
+        <label for="star3" title="text">3 stars</label>
+        <input type="radio" id="star2" name="rate" value="2" />
+        <label for="star2" title="text">2 stars</label>
+        <input type="radio" id="star1" name="rate" value="1" />
+        <label for="star1" title="text">1 star</label>*@
+                                    @for (int i = 5; i > 0; i--)
+                                    {
+                                        if (i <= note.AverageRatings)
+                                        {
+                                            <input type="radio" id="@note.ID@i" name="@note.ID@i" value="@(i+1)" checked disabled/>
+                                            <label for="@note.ID@i">@(i+1) stars</label>
+                                        }
+                                        else
+                                        {
+                                            <input type="radio" id="@note.ID@i" name="@note.ID@i" value="@(i+1)" disabled />
+                                            <label for="@note.ID@i">@(i+1) stars</label>
+                                        }
+                                    }
+                                </div>
+                                <span>@note.NumberOfRatings reviews</span>
+                            </div>
+                        </div>
+                            </a>
+                        }
+
+                </div>
+            </div>
+
+        </div>
+
+        <!--<div class="row">-->
+        <!-- Pagination -->
+        <!--<div class="pagination-area text-center">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <span class="page-link" href="#" aria-label="Previous">
+                            <img src="../../images/images/left-arrow.png">
+                        </span>
+                    </li>
+                    <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                    <li class="page-item">
+                        <span class="page-link" href="#" aria-label="Next">
+                            <img src="../../images/images/right-arrow.png">
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+
+
+        </div>-->
+        
+        @Html.PagedListPager(Model, page => Url.Action("SearchNotes",
+            new { page }))
+
+
+    </div>
+
+</section>
+
+<script type="text/javascript">
+
+    $(function () {
+        $('.pagination-container').removeClass('pagination-container').addClass('pagination-area text-center');
+        $('.pagination li').addClass('page-item');
+        $('.page-item a').addClass('page-link');
+        var previous = $('.PagedList-skipToPrevious a').attr('href');
+        var next = $('.PagedList-skipToNext a').attr('href');
+        var first = $('.PagedList-skipToFirst a').attr('href');
+        var last = $('.PagedList-skipToLast a').attr('href');
+        $('.PagedList-skipToPrevious').removeClass('PagedList-skipToPrevious').addClass('page-item').empty().append(
+            '<a class="page-link" href="' + previous + '" aria-label="Previous"><img src = "../../images/images/left-arrow.png"></a>');
+        $('.PagedList-skipToNext').removeClass('PagedList-skipToNext').addClass('page-item').empty().append(
+            '<a class="page-link" href="' + next + '" aria-label="Next"><img src = "../../images/images/right-arrow.png"></a>');
+        $('.PagedList-skipToFirst').removeClass('PagedList-skipToFirst').addClass('page-item').empty().append(
+            '<a class="page-link" href="' + first + '" aria-label="Next"><img src = "../../images/images/left-arrow.png"><img src = "../../images/images/left-arrow.png"></a>');
+        $('.PagedList-skipToLast').removeClass('PagedList-skipToLast').addClass('page-item').empty().append(
+            '<a class="page-link" href="' + last + '" aria-label="Next"><img src = "../../images/images/right-arrow.png"><img src = "../../images/images/right-arrow.png"></a>');
+
+        
+    });
+
+</script>

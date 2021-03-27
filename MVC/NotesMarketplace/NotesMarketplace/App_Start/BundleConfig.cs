@@ -23,7 +23,7 @@ namespace NotesMarketplace
                       "~/Scripts/bootstrap.js"));*/
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/fontawesome/font-awesome.min.css",
+                      "~/Content/font-awesome.min.css",
                       "~/Content/bootstrap.css",
                       "~/Content/style.css",
                       "~/Content/responsive.css")
@@ -32,6 +32,11 @@ namespace NotesMarketplace
                 "~/Content/DataTables/css/dataTables.bootstrap.css"
                 )
                 );
+
+            bundles.Add(new StyleBundle("~/Content/pagedList").Include(
+                "~/Content/PagedList.css"
+                ));
+
 
             bundles.Add(new ScriptBundle("~/Scripts").Include(
                 "~/Scripts/jquery.min.js",

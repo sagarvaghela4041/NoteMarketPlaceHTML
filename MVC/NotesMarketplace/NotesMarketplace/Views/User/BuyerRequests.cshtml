@@ -79,7 +79,7 @@
                 columnDefs: [{
                     "targets": -1,
                     "render": function (data, type, row) {
-                        var img = '<img src="../../images/images/eye.png" alt="View">' +
+                        var img = '<a href="NoteDetails/' + row['NoteId'] + '"><img src="../../images/images/eye.png" alt="View"></a>' +
                             '<div class="btn-group table-submenu">' +
                             '<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
                             '<img src="../../images/images/dots.png" alt="More">' +
@@ -91,7 +91,7 @@
                         return img;
                     }
                 }],
-                columns: [{ 'data': 'id' },
+                columns: [{ 'data': 'SrNo' },
                 { 'data': 'NoteTitle' },
                 { 'data': 'NoteCategory' },
                 { 'data': 'Buyer' },

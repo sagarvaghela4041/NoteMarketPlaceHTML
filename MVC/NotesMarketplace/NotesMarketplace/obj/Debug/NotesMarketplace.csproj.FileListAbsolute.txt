@@ -81,6 +81,8 @@ D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Microso
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Microsoft.Web.Infrastructure.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Microsoft.Win32.Registry.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Newtonsoft.Json.dll
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\PagedList.dll
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\PagedList.Mvc.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Buffers.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.ComponentModel.Annotations.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Memory.dll
@@ -126,6 +128,8 @@ D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Microso
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Microsoft.Extensions.Primitives.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Microsoft.Extensions.WebEncoders.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Microsoft.Net.Http.Headers.xml
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\PagedList.xml
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\PagedList.Mvc.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Buffers.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Memory.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Numerics.Vectors.xml

@@ -20,7 +20,9 @@
                     Please verify the email address via clicking on the link we sent you via email.
                 </p>
                 
-                <button type="button" class="btn btn-primary" id="email-ver-submit">LOGIN</button>
+                @*<button type="button" class="btn btn-primary" id="email-ver-submit">*@
+                @Html.ActionLink("LOGIN", "Login","Auth","", new { @class = "btn btn-primary", @id = "email-ver-submit",@style= "display:flex; justify-content: center; align-items: center" })
+                @*</button>*@
             </div>
         </div>
 

@@ -65,6 +65,16 @@ namespace NotesMarketplace
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
+        [NotMapped]
+        [Required]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$", ErrorMessage = "Password must be between 6 and 24 characters and contain: one uppercase letter, one lowercase letter, one digit and one special character.")]
+        public string NewPassword { get; set; }
+
+        [NotMapped]
+        [Required]
+        [Compare("NewPassword")]
+        public string ConfirmNewPassword { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Download> Downloads { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

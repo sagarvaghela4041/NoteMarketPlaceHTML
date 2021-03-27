@@ -11,7 +11,9 @@ namespace NotesMarketplace
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Web;
+
     public partial class UserInfo
     {
         public int ID { get; set; }
@@ -36,5 +38,14 @@ namespace NotesMarketplace
         public Nullable<int> ModifiedBy { get; set; }
     
         public virtual User User { get; set; }
+
+        [NotMapped]
+        public HttpPostedFileBase file { get; set; }
+        
+        [NotMapped]
+        public string FirstName { get; set; }
+
+        [NotMapped]
+        public string  LastName { get; set; }
     }
 }

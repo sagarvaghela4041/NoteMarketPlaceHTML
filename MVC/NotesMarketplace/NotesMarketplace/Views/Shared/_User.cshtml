@@ -16,11 +16,16 @@
     <!-- Bootstrap CSS -->
     <!-- Custom CSS -->
     <!-- Responsive CSS -->
+    @Styles.Render("~/Content/pagedList")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/lib")
 
 </head>
-
+@{
+    int userId = (int)Session["userID"];
+    NotesMarketplaceEntities data = new NotesMarketplaceEntities();
+    UserInfo u = data.UserInfoes.Where(m =>m.UserID == userId).FirstOrDefault();
+}
 <body>
 
     <div class="wrapper">
@@ -39,7 +44,7 @@
                     <nav class="main-nav">
                         <ul class="menu-navigation">
                             <li>
-                                @Html.ActionLink("Search Notes", "")
+                                @Html.ActionLink("Search Notes", "SearchNotes")
                             </li>
                             <li>
                                 @Html.ActionLink("Sell Your Notes", "Dashboard")
@@ -48,31 +53,29 @@
                                 @Html.ActionLink("Buyer Request", "BuyerRequests")
                             </li>
                             <li>
-                                @Html.ActionLink("FAQ", "Faq", "Static")
+                                @Html.ActionLink("FAQ", "Faq")
                             </li>
                             <li>
-                                @Html.ActionLink("Contact Us", "ContactUs", "Static")
+                                @Html.ActionLink("Contact Us", "ContactUs")
                             </li>
-
-
 
 
                             <div class="dropdown navigation-submenu">
                                 <button class="btn btn-secondary dropdown-toggle button-with-image" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img id="navigation-img" src="../../images/images/user-img.png" class="img-circle" alt="user-img">
+                                    <img id="navigation-img" src="/Uploads/@Path.GetFileName(u.ProfilePicture)" class="img-circle" alt="user-img">
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">My Profile</a>
-                                    <a class="dropdown-item" href="#">My Downloads</a>
-                                    <a class="dropdown-item" href="#">My Sold Notes</a>
-                                    <a class="dropdown-item" href="#">My Rejected Notes</a>
-                                    <a class="dropdown-item" href="#">Change Password</a>
+                                    @Html.ActionLink("My Profile", "MyProfile", "User", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("My Downloads", "MyDownloads", "User", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("My Sold Notes", "MySoldNotes", "User", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("My Rejected Notes", "MyRejectedNotes", "User", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Change Password", "ChangePassword", "Auth", null, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Logout", "Logout", "Auth", null, new { @class = "dropdown-item", @id = "submenu-logout" })
                                 </div>
                             </div>
 
                             @*<button type="submit" class="btn btn-primary" id="logout">*@
-                                @Html.ActionLink("Logout", "Logout","Auth",null, new { @class = "btn btn-primary", @id = "logout" })
+                            @Html.ActionLink("Logout", "Logout", "Auth", null, new { @class = "btn btn-primary", @id = "logout" })
                             @*</button>*@
                         </ul>
                     </nav>
@@ -136,8 +139,6 @@
 
     </footer>
     <!-- Footer Ends -->
-
-
     <!-- JQuery -->
     <!-- Bootstrap JS -->
     <!-- Custom JS -->
@@ -146,11 +147,10 @@
 </body>
 
 <script type="text/javascript">
-
-    $('.navigation-submenu').on('click', function () {
-        $(this).toggleClass('open');
+    $(function () {
+        $('.navigation-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
     });
-
 </script>
-
 </html>

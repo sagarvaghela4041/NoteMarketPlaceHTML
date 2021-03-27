@@ -1,0 +1,182 @@
+﻿@model NotesMarketplace.NotesDetail
+@{
+    ViewBag.Title = "DownloadedNoteDetails";
+    Layout = "~/Views/Shared/_User.cshtml";
+}
+
+<section id="notes-details">
+
+    <div class="container">
+        <div class="row">
+            <h3>Notes Details</h3>
+            <div class="col-md-6" id="notes-details-left">
+                <div class="col-md-5" id="notes-details-left-inner">
+                    @*<img src="../../images/Notes-Details/1.jpg" class="img-responsive" alt="Cover">*@
+                    <img src="/Uploads/@Path.GetFileName(Model.DisplayPicture)" class="img-responsive" alt="Cover">
+
+
+                    <div class="col-md-7" id="notes-details-more">
+
+                        <h1>@Model.Title</h1><br>
+                        <h4>@Model.Type.TypeName</h4><br>
+                        <p>@Model.Description</p><br>
+                        
+                            <button style="display:none" id="downloadbtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">HiddenButton</button>
+                            <button id="downloadedAlready">
+                                @Html.ActionLink("Download / $" + Model.Price, "", "User", null,
+          new {  @style = "text-decoration:none; color:#fff" })
+                            </button><br>
+                        
+                        
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6" id="notes-details-right">
+
+                <span class="notes-details-label">Institution</span><span class="notes-details-ans">@Model.UniversityName</span><br><br>
+                <span class="notes-details-label">Country</span><span class="notes-details-ans">@Model.Country.CountryName</span><br><br>
+                <span class="notes-details-label">Course Name</span><span class="notes-details-ans">@Model.Course</span><br><br>
+                <span class="notes-details-label">Course Code</span><span class="notes-details-ans">@Model.CourseCode</span><br><br>
+                <span class="notes-details-label">Professor</span><span class="notes-details-ans">@Model.Professor</span><br><br>
+                <span class="notes-details-label">Number of Pages</span><span class="notes-details-ans">@Model.NumberOfPages</span><br><br>
+                <span class="notes-details-label">Approved Date</span><span class="notes-details-ans">@Model.PublishedDate</span><br><br>
+                <span class="notes-details-label">Rating</span>
+                <span class="notes-details-ans">
+                    <div class="rate">
+                        @for (int i = 5; i > 0; i--)
+                        {
+                            if (i <= Model.AverageRatings)
+                            {
+                                <input type="radio" id="@Model.ID@i" name="@Model.ID@i" value="@(i + 1)" checked disabled />
+                                <label for="@Model.ID@i">@(i + 1) stars</label>
+                            }
+                            else
+                            {
+                                <input type="radio" id="@Model.ID@i" name="@Model.ID@i" value="@(i + 1)" disabled />
+                                <label for="@Model.ID@i">@(i + 1) stars</label>
+                            }
+                        }
+                    </div>
+
+                    <span class="notes-details-ans">@Model.NumberOfRatings reviews</span>
+
+                </span><br><br><br>
+
+                <p id="notes-details-report">@Model.NumberOfSpamReports Users marked this as inappropriate</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+<hr>
+
+<section id="notes-preview">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5" id="notes-preview-left">
+                <h1>Notes Preview</h1>
+                <iframe src="/Uploads/@Path.GetFileName(Model.NotePreview)">
+                </iframe>
+            </div>
+
+            <h1>Customer Reviews</h1>
+            <div class="col-md-7" id="notes-preview-right">
+                @{int j = 1; }
+                @foreach (UserInfo r in (List<UserInfo>)(ViewBag.raters))
+                {
+                    if (j > 3)
+                    {
+                        break;
+                    }
+                    <div class="col-md-12 notes-review notes-review-border-@j">
+                        <div class="col-md-2" id="notes-review-left">
+
+                            <img src="~/Uploads/@Path.GetFileName(r.ProfilePicture)" alt="Customer-image">
+                        </div>
+                        <div class="col-md-10" id="notes-review-right">
+                            <h3>@r.User.FirstName</h3>
+                            <span class="notes-details-ans">
+                                <div class="rate">
+
+                                    @for (int k = 5; k > 0; k--)
+                                    {
+                                        if (k <= ViewBag.reviews[j - 1].Ratings)
+                                        {
+                                            <input type="radio" id="@r.ID@k" name="@r.ID@k" value="@(k + 1)" checked disabled />
+                                            <label for="@r.ID@k">@(k + 1) stars</label>
+                                        }
+                                        else
+                                        {
+                                            <input type="radio" id="@r.ID@k" name="@r.ID@k" value="@(k + 1)" disabled />
+                                            <label for="@r.ID@k">@(k + 1) stars</label>
+                                        }
+                                    }
+
+
+                                </div>
+                            </span>
+                            @*@ViewBag.reviews[j-1].Ratings*@
+                            <br>
+                            <p>@ViewBag.reviews[j - 1].Comments</p>
+                        </div>
+                    </div>
+                    j++;
+                }
+                @if (j == 1)
+                {
+                    <h1>Not enough reviews</h1>
+                }
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- Modal -->
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" id="modal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><img id="thanks-close" src="../../images/Notes-Details/close.png" alt="Close"></button>
+                <img src="../../images/Notes-Details/SUCCESS.png" alt="" id="thanks-header-img">
+                <h1>Thank you for purchasing</h1>
+            </div>
+            <div class="modal-body">
+                <h4>Dear @ViewBag.buyerName,</h4><br>
+                <p class="modal-p">As this is paid notes - you need to pay to seller @ViewBag.sellerName offline. We will send him an email that you want to download this note. He may contact you further for payment process completion.</p>
+                <p class="modal-p">In case, you have urgency,<br>Please contact us on +9195377345959.</p>
+                <p class="modal-p">Once he receives the payment and acknowledge us - selected notes you can see over my downloads tab for download.</p>
+                <p class="modal-p">Have a good day.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@Scripts.Render("~/Scripts")
+<script type="text/javascript">
+
+    $(function () {
+        $('#downloadbtn').click();
+        $('#downloadedAlready').on('click', function () {
+            alert("You have already requested for this note.");
+            event.preventDefault();
+        });
+    });
+
+
+
+
+</script>
+
+

@@ -155,3 +155,14 @@ $(function () {
     });
 
 });
+
+
+
+/*========================================================
+                Navigation - Submenu
+========================================================*/
+$(function () {
+    $('.navigation-submenu').on('click', function () {
+        $(this).toggleClass('open');
+    });
+});

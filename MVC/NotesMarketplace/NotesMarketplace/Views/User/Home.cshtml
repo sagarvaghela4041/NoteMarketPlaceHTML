@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Static.cshtml";
+}
+
+<section class="title-section-home">
+    <div class="container">
+        <div class="row" id="home-main">
+
+            <h1>Download Free/Paid Notes<br> or Sale your Book</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, nihil, repudiandae!<br> Corporis dolorem, vel officiis obcaecati.</p>
+            <button>LEARN MORE</button>
+
+        </div>
+    </div>
+
+</section>
+
+<section id="home-about">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+                <h1>About NotesMarketPlace</h1>
+
+            </div>
+            <div class="col-md-8">
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus dignissimos beatae, aliquid culpa minima ipsa! Officiis optio magni iure cum. Magnam ipsum, rem blanditiis quia rerum iste repellat maiores modi.Officiis optio magni iure cum. Magnam ipsum, rem blanditiis quia rerum iste repellat maiores modi.</p>
+
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.Temporibus dignissimos beatae, aliquid culpa minima ipsa! Officiis optio magni iure cum. Magnam ipsum, rem blanditiis quia rerum iste repellat maiores modi.</p>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section id="home-how">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>How it Works</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="home-how-img">
+                    <img src="../../images/images/download.png" alt="Download Notes">
+                </div>
+                <h4>Download Free/Paid Notes</h4>
+                <p>Get Material for your Cource etc.</p>
+                <a href="SearchNotes">
+                    <button id="home-how-download">Download</button>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <div id="home-how-img">
+                    <img src="../../images/images/seller.png" alt="Download Notes">
+                </div>
+                <h4>Seller</h4>
+                <p id="home-how-seller">Upload and Download Cource and Materials etc.</p>
+                <a href="Dashboard">
+                    <button id="home-how-download">SELL BOOK</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section id="home-customers">
+
+    <div class="container" style="width: 100%;">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h1>What our Customers are Saying</h1>
+
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6 home-customer-main">
+                <div class="home-customer-header">
+                    <div class="home-customer-logo">
+                        <img src="../../images/images/customer-1.png" alt="Customer-Image">
+                    </div>
+                    <div class="home-customer-info">
+                        <h4>Walter Meller</h4>
+                        <p>Founder & CEO, Matrix Group</p>
+                    </div>
+                </div>
+                <p class="customer-text">"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim nihil, pariatur! Distinctio labore odio earum. Deserunt pariatur hic velit cum distinctio quaerat rem, iusto optio minus laudantium nihil placeat blanditiis."</p>
+            </div>
+
+            <div class="col-md-6 home-customer-main">
+                <div class="home-customer-header">
+                    <div class="home-customer-logo">
+                        <img src="../../images/images/customer-2.png" alt="Customer-Image">
+                    </div>
+                    <div class="home-customer-info">
+                        <h4>Walter Meller</h4>
+                        <p>Founder & CEO, Matrix Group</p>
+                    </div>
+                </div>
+                <p class="customer-text">"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim nihil, pariatur! Distinctio labore odio earum. Deserunt pariatur hic velit cum distinctio quaerat rem, iusto optio minus laudantium nihil placeat blanditiis."</p>
+            </div>
+
+            <div class="col-md-6 home-customer-main">
+                <div class="home-customer-header">
+                    <div class="home-customer-logo">
+                        <img src="../../images/images/customer-3.png" alt="Customer-Image">
+                    </div>
+                    <div class="home-customer-info">
+                        <h4>Walter Meller</h4>
+                        <p>Founder & CEO, Matrix Group</p>
+                    </div>
+                </div>
+                <p class="customer-text">"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim nihil, pariatur! Distinctio labore odio earum. Deserunt pariatur hic velit cum distinctio quaerat rem, iusto optio minus laudantium nihil placeat blanditiis."</p>
+            </div>
+
+            <div class="col-md-6 home-customer-main">
+                <div class="home-customer-header">
+                    <div class="home-customer-logo">
+                        <img src="../../images/images/customer-4.png" alt="Customer-Image">
+                    </div>
+                    <div class="home-customer-info">
+                        <h4>Walter Meller</h4>
+                        <p>Founder & CEO, Matrix Group</p>
+                    </div>
+                </div>
+                <p class="customer-text">"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim nihil, pariatur! Distinctio labore odio earum. Deserunt pariatur hic velit cum distinctio quaerat rem, iusto optio minus laudantium nihil placeat blanditiis."</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+@Scripts.Render("~/Scripts")
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#logo').attr('id', 'logo-home');
+        $('.site-header').removeClass('site-header').addClass('site-header-home');
+    });
+</script>
+
