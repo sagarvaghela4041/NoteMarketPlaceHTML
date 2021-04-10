@@ -13,7 +13,8 @@
         <div class="row">
             <div class="col-md-12 section-first-heading">
                 <h1>My Reject Notes</h1>
-                <input type="search" placeholder="      Seach" id="search">
+                <input type="search" placeholder="Seach" class="search" id="search">
+                <img class="search-icon" src="../../images/images/search-icon.png" alt="search">
                 <button>SEARCH</button>
             </div>
 
@@ -83,8 +84,15 @@
                             '<div class="dropdown-menu dropdown-menu-right submenu-right">' +
                             '<button class="dropdown-item submenu-item" type="button"><a href="DownloadNoteById/' + data + '" class="submenu-item" style="padding:0">Download Note</a></button>' +
                             '</div>' +
-                            '</div>'
+                            '</div>';
                         return img;
+                    }
+                },
+                {
+                    "targets": -2,
+                    "render": function (data, type, row) {
+                        var clone = '<a href="/User/CloneNote/' + data + '">Clone</a>';
+                        return clone;
                     }
                 }],
                 columns: [{ 'data': 'SrNo' },
@@ -97,8 +105,18 @@
         $('#search').keyup(function () {
             $("#section-first .section-first-heading input").css("background", "none");
             t.search($(this).val()).draw();
+            makePagination();
         })
 
+        makePagination();
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+    };
+
+    function makePagination() {
         $(".dataTables_filter").hide();
         $('#myRejectedNotes_paginate').parent().removeClass('col-sm-7').siblings().remove();
         $('#myRejectedNotes_paginate').addClass("pagination-area text-center");
@@ -123,12 +141,7 @@
             }
 
         });
-
-        $('.table-submenu').on('click', function () {
-            $(this).toggleClass('open');
-        });
-
-    };
+    }
 </script>
 
 

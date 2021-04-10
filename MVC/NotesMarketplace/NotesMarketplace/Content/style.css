@@ -2457,3 +2457,36 @@ button.faq-question:focus {
     line-height: 20px;
     color: #333333;
 }
+
+
+/*========================================================
+Footer (Updated to stick to bottom when content is less)
+========================================================*/
+* {
+    box-sizing: border-box;
+}
+
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+html,
+body {
+    height: 100%;
+    position: relative;
+}
+
+.main-container {
+    min-height: 100vh; /* will cover the 100% of viewport */
+    overflow: hidden;
+    display: block;
+    position: relative;
+    padding-bottom: 100px; /* height of your footer */
+}
+
+footer {
+    position: absolute !important;
+    bottom: 0;
+    width: 100%;
+}

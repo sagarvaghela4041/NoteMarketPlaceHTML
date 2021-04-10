@@ -1007,7 +1007,16 @@ namespace NotesMarketplace.Controllers
         [Route("User/MyDownloads")]
         public ActionResult MyDownloads()
         {
-            return View();        
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+            else
+            {
+
+                int userId = (int)Session["userID"];
+                return View();
+            }
         }
 
         [Route("User/MyDownloadsData")]
@@ -1147,7 +1156,16 @@ namespace NotesMarketplace.Controllers
         [Route("User/MySoldNotes")]
         public ActionResult MySoldNotes()
         {
-            return View();        
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+            else
+            {
+
+                int userId = (int)Session["userID"];
+                return View();
+            }
         }
 
 
@@ -1191,7 +1209,16 @@ namespace NotesMarketplace.Controllers
         [Route("User/MyRejectedNotes")]
         public ActionResult MyRejectedNotes()
         {
-            return View();
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+            else
+            {
+
+                int userId = (int)Session["userID"];
+                return View();
+            }
         }
 
         [Route("User/MyRejectedNotesData")]
@@ -1223,6 +1250,31 @@ namespace NotesMarketplace.Controllers
                 return Json(rejectedNotesData, JsonRequestBehavior.AllowGet);
             }
         }
+
+        /* Clone Notes */
+        [Route("User/CloneNote/{id}")]
+        public ActionResult CloneNote(int id)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+            else
+            {
+                int userId = (int)Session["userID"];
+                NotesDetail note = data.NotesDetails.Find(id);
+                NotesAttachment notesAttachment = data.NotesAttachments.Where(n => n.NoteID == id).FirstOrDefault();
+
+                note.Status = "Draft";
+                data.NotesDetails.Add(note);
+                data.NotesAttachments.Add(notesAttachment);
+
+                data.SaveChanges();
+
+                return RedirectToAction("Dashboard", "User");
+            }
+        }
+
 
         [Route("User/SearchNotes")]
         public ActionResult SearchNotes(int? page, int? type, int? category, int? country, string university, 

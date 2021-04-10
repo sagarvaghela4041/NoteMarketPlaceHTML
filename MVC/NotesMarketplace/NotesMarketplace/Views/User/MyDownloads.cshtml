@@ -13,7 +13,8 @@
         <div class="row">
             <div class="col-md-12 section-first-heading">
                 <h1>My Downloads</h1>
-                <input type="search" placeholder="      Seach" id="search">
+                <input type="search" placeholder="Seach" class="search" id="search">
+                <img class="search-icon" src="../../images/images/search-icon.png" alt="search">
                 <button>SEARCH</button>
             </div>
 
@@ -171,8 +172,19 @@
         $('#search').keyup(function () {
             $("#section-first .section-first-heading input").css("background", "none");
             t.search($(this).val()).draw();
+            makePagination();
         })
 
+        makePagination();
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+        
+    };
+
+    function makePagination() {
         $(".dataTables_filter").hide();
         $('#myDownloads_paginate').parent().removeClass('col-sm-7').siblings().remove();
         $('#myDownloads_paginate').addClass("pagination-area text-center");
@@ -197,13 +209,7 @@
             }
 
         });
-
-        $('.table-submenu').on('click', function () {
-            $(this).toggleClass('open');
-        });
-
-        
-    };
+    }
 
     function ConfirmFunction() {
         var confirmBox = confirm("Are you sure you want to mark this report as spam, you cannot update it later? ");
