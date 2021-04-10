@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewBag.Title = "SpamReports";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@Scripts.Render("~/AdminScripts")
+@Scripts.Render("~/libs")
+<section id="section-first">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>Spam Reports</h1>
+
+                <input type="search" placeholder="Seach" class="search" id="searchReport">
+                <img style="position:relative; top: 5px;" class="search-icon" src="../../images/images/search-icon.png" alt="search">
+                <button>SEARCH</button>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="spamReportsData">
+                <thead>
+                    <tr>
+                        <th scope="col">SR NO.</th>
+                        <th scope="col">REPORTED BY</th>
+                        <th scope="col">NOTE TITLE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col">DATE EDITED</th>
+                        <th scope="col">REMARK</th>
+                        <th scope="col">ACTION</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+<script type="text/javascript">
+    $(function () {
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/Admin/SpamReportsData",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+
+
+
+    }
+    );
+    function OnSuccess(response) {
+
+
+
+        t = $("#spamReportsData").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var dropdwn = '<div class="btn-group table-submenu">'+
+                                    '<button type = "button" class="btn btn-secondary dropdown-toggle" data - toggle="dropdown" aria - haspopup="true" aria - expanded="false" >'+
+                                    '<img src="../images/images/dots.png" alt="More">'+
+                                    '</button>'+
+                                    '<div class="dropdown-menu dropdown-menu-right submenu-right">'+
+                                    '<a href="/User/DownloadNoteById/' + data + '"><button class="dropdown-item submenu-item" type="button">Download Notes</button></a>'+
+                                    '<a href="/User/NoteDetails/' + data + '"><button class="dropdown-item submenu-item" type="button">View More Details</button></a>'+
+                                    '</div>'+
+                                    '</div>';
+                            
+                        return dropdwn;
+                    }
+                },
+                {
+                    "targets": -2,
+                    "render": function (data, type, row) {
+                        var img = '<a onclick="DeleteSpamReport()" href="DeleteSpamReport/' + data + '"><img src = "../images/images/delete.png" alt = "delete" style="padding: 5px;"></a>';
+                        return img;
+                    }
+                },
+                {
+                    "targets": 2,
+                    "render": function (data, type, row) {
+                        var user = '<a href="/MembersDetails/' + row["NoteId"] + '">' + data + '</a>';
+                        return user;
+                    }
+                }],
+                columns: [{ 'data': 'SrNo' },
+                        { 'data': 'ReportedBy' },
+                        { 'data': 'NoteTitle' },
+                        { 'data': 'NoteCategory' },
+                        { 'data': 'DateAdded' },
+                        { 'data': 'Remark' },
+                        { 'data': 'SpamReportId' },
+                        { 'data': 'NoteId' }]
+            });
+        $('#searchReport').keyup(function () {
+            $("#section-first .section-first-heading input").css("background", "none");
+            t.search($(this).val()).draw();
+            makePagination();
+        })
+        makePagination();
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+    };
+
+
+
+    function makePagination() {
+
+        $(".dataTables_filter").hide();
+        $('#spamReportsData_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#spamReportsData_paginate').addClass("pagination-area text-center");
+        $('#spamReportsData_paginate').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+
+
+    }
+
+    function DeleteSpamReport() {
+
+        var ConfirmBox = confirm("Are you sure you want to delete reported issue?");
+            if (ConfirmBox == false) {
+                event.preventDefault();
+            }
+
+    }
+
+
+</script>

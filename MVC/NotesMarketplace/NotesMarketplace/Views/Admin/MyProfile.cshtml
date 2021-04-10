@@ -1,0 +1,100 @@
+﻿@model UserInfo
+@{
+    ViewBag.Title = "MyProfile";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<section id="user-profile">
+    <div class="container" id="user-profile-form">
+            @using (Html.BeginForm("SaveAdminProfile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(m => m.ID)
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="profile-headings">My Profile</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FirstName, "First Name *", new { @for = "profile-fn", @class = "user-profile-label" })
+                            @Html.TextBoxFor(m => m.FirstName, new { @id = "profile-fn", @type = "text", @class = "form-control user-profile-input", @placeholder = "Enter your first name" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.LastName, "Last Name *", new { @for = "profile-ln", @class = "user-profile-label" })
+                            @Html.TextBoxFor(m => m.LastName, new { @id = "profile-ln", @type = "text", @class = "form-control user-profile-input", @placeholder = "Enter your last name" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EmailID, "Email *", new { @for = "profile-email", @class = "user-profile-label" })
+                            @Html.TextBoxFor(m => m.EmailID, new { @id = "profile-email", @type = "email", @class = "form-control user-profile-input", @aria_describedby = "emailHelp", @placeholder = "Enter your email address" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.SecondaryEmailID, "Secondary Email", new { @for = "profile-email", @class = "user-profile-label" })
+                            @Html.TextBoxFor(m => m.SecondaryEmailID, new { @id = "profile-email", @type = "email", @class = "form-control user-profile-input", @aria_describedby = "emailHelp", @placeholder = "Enter your email address" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 user-phone">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PhoneNumber, "Phone Number", new { @for = "profile-phone", @class = "user-profile-label" })
+                            <br>
+                            <div class="col-md-2">
+                                <select id="profile-phone-code">
+                                    <option>+91</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.PhoneNumber, new { @id = "profile-phone", @type = "text", @class = "form-control user-profile-input", @placeholder = "Enter your phone number" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.file, "Profile Picture", new { @for = "ProfilePicture", @class = "user-profile-label" })
+                            <br>
+                            <label for="ProfilePicture" id="profile-upload-label-img">
+                                <img src="../../images/User-Profile/upload.png" alt="Upload File Here">
+
+                                @{
+                                    if (Model.ProfilePicture == null || Model.ProfilePicture.Equals(""))
+                                    {
+                                        <span id="ProfilePictureName">Uppload a picture</span>
+                                    }
+                                    else
+                                    {
+                                        <span id="ProfilePictureName">@Path.GetFileName(Model.ProfilePicture)</span>
+                                    }
+                                }
+
+                            </label>
+                            @Html.TextBoxFor(m => m.file, new { @type = "file", @class = "form-control profile-upload", @id = "ProfilePicture", @name = "ProfilePicture" })
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="btn btn-primary" id="profile-submit">SUBMIT</button>
+              }
+    </div>
+</section>
+@Scripts.Render("~/Scripts")
+<script type="text/javascript">
+    $(function () {
+        $('#ProfilePicture').change(function () {
+            var ProfilePictureName = this.files[0]['name'];
+            $('#ProfilePictureName').html(ProfilePictureName);
+        });
+
+    });
+</script>

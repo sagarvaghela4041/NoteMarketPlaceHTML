@@ -47,5 +47,8 @@ namespace NotesMarketplace
 
         [NotMapped]
         public string  LastName { get; set; }
+
+        [NotMapped]
+        public string EmailID { get; set; }
     }
 }

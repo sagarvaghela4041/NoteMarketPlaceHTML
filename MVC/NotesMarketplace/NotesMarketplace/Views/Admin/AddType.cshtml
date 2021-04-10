@@ -1,0 +1,40 @@
+﻿@model NotesMarketplace.Type
+@{
+    ViewBag.Title = "AddType";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<section id="user-profile">
+    <div class="container" id="user-profile-form">
+        @using (Html.BeginForm("SaveType","Admin",FormMethod.Post)) {
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">Add Type</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.HiddenFor(m => m.TypeID)
+                    @Html.HiddenFor(m => m.AddedBy)
+                    @Html.HiddenFor(m => m.DateAdded)
+                    @Html.HiddenFor(m => m.IsActive)
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TypeName, "Type *",new { @for = "profile-fn", @class="user-profile-label"})
+                        @Html.TextBoxFor(m => m.TypeName, new { @id = "profile-fn", @type = "text", @class="form-control user-profile-input", @placeholder="Enter category name"})
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Description, "Description *", new { @for = "profile-ln", @class="user-profile-label"})
+                        @Html.TextBoxFor(m => m.Description, new { @id = "profile-ln", @type = "text", @class="form-control user-profile-input", @placeholder="Enter your description"})
+                    </div>
+                </div>
+
+            </div>
+
+
+            <button type="submit" class="btn btn-primary" id="profile-submit">SUBMIT</button>
+        }
+    </div>
+</section>

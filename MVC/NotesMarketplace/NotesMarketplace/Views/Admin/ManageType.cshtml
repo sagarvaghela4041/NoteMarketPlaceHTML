@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "ManageType";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@Scripts.Render("~/AdminScripts")
+@Scripts.Render("~/libs")
+<section id="section-first">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>Manage Type</h1>
+            </div>
+            <div class="col-md-12 section-first-filter">
+                <a href="AddType"><button class="btn-administrator">Add Type</button></a>
+                <input type="search" placeholder="Seach" class="search" id="searchType">
+                <img style="position:relative; top: 15px;" class="search-icon" src="../../images/images/search-icon.png" alt="search">
+                <button>SEARCH</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="manageTypes">
+                <thead>
+                    <tr>
+                        <th scope="col">SR NO.</th>
+                        <th scope="col">TYPE</th>
+                        <th scope="col">DESCRIPTION</th>
+                        <th scope="col">DATE ADDED</th>
+                        <th scope="col">ADDED BY</th>
+                        <th scope="col">ACTIVE</th>
+                        <th scope="col">ACTION</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+<script type="text/javascript">
+    $(function () {
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/Admin/ManageTypeData",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+
+
+
+    }
+    );
+    function OnSuccess(response) {
+
+
+
+        t = $("#manageTypes").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var img = '<a href="/UpdateType/' + data +'"><img src="../images/images/edit.png" alt="edit" style="padding: 5px;"></a>'+
+                            '<a onclick="deleteType()" href="DeleteType/' + data +'"><img src = "../images/images/delete.png" alt = "delete" style="padding: 5px;"></a>';
+                        return img;
+                    }
+                }],
+                columns: [{ 'data': 'SrNo' },
+                        { 'data': 'Name' },
+                        { 'data': 'Description' },
+                        { 'data': 'DateAdded' },
+                        { 'data': 'AddedBy' },
+                        { 'data': 'IsActive' },
+                        { 'data': 'Id' }]
+            });
+        $('#searchType').keyup(function () {
+            $("#section-first .section-first-heading input").css("background", "none");
+            t.search($(this).val()).draw();
+            makePagination();
+        })
+        makePagination();
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+    };
+
+
+
+    function makePagination() {
+
+        $(".dataTables_filter").hide();
+        $('#manageTypes_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#manageTypes_paginate').addClass("pagination-area text-center");
+        $('#manageTypes_paginate').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+
+
+    }
+
+    function deleteType() {
+
+        var ConfirmBox = confirm("Are you sure you want to make this type inactive?");
+            if (ConfirmBox == false) {
+                event.preventDefault();
+            }
+
+    }
+
+
+</script>

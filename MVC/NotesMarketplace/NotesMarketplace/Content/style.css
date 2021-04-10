@@ -1793,21 +1793,23 @@ pages {with extra image after navbar}:
 }
 
 
-#section-first .section-first-heading input {
-    margin: 0 10px 0px auto;
-    width: 322px;
-    height: 50px;
-    border: 1px solid #d1d1d1;
-    padding-left: 10px;
-    background-image: url(../images/images/search-icon.png);
-    background-repeat: no-repeat;
-    background-origin: content-box;
-    background-position: left;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 20px;
-    color: #8a8a8a;
-}
+    #section-first .section-first-heading input {
+        margin: 0 10px 0px auto;
+        width: 322px;
+        height: 50px;
+        border: 1px solid #d1d1d1;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #8a8a8a;
+        max-width: 1377px;
+        padding-left: 35px;
+    }
+    #section-first .section-first-heading .search-icon {
+        position: relative;
+        left: -322px;
+        top: 4px;
+    }
 
 #section-first .section-first-heading button,
 .dashboard-heading button {
@@ -2180,7 +2182,7 @@ table.dataTable tbody td {
 }
 
 #add-review-modal #modal-add-review,
-#report-issue-modal #modal-add-review, {
+#report-issue-modal #modal-add-review {
     margin: 200px 0 0 0;
     background: #fff;
     width: 580px;

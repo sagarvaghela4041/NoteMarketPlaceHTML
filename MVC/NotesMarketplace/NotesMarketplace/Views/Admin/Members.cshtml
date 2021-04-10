@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "Members";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@Scripts.Render("~/AdminScripts")
+@Scripts.Render("~/libs")
+<section id="section-first">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>Members</h1>
+                <input type="search" placeholder="Seach" class="search" id="searchMembers">
+                <img class="search-icon" src="../../images/images/search-icon.png" alt="search">
+                <button>SEARCH</button>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="members">
+                <thead>
+                    <tr>
+                        <th scope="col">SR NO.</th>
+                        <th scope="col">FIRST NAME</th>
+                        <th scope="col">LAST NAME</th>
+                        <th scope="col">EMAIL</th>
+                        <th scope="col">JOINING DATE</th>
+                        <th scope="col">UNDER REVIEW NOTES</th>
+                        <th scope="col">PUBLISHED NOTES</th>
+                        <th scope="col">DOWNLOADED NOTES</th>
+                        <th scope="col">TOTAL EXPENSES</th>
+                        <th scope="col">TOTAL EARNINGS</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/Admin/MembersData",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    }
+    );
+    function OnSuccess(response) {
+
+
+
+        t = $("#members").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var img = '<div class="btn-group table-submenu">'+
+                                    '<button type = "button" class="btn btn-secondary dropdown-toggle" data - toggle="dropdown" aria - haspopup="true" aria - expanded="false">'+
+                                    '<img src="../images/images/dots.png" alt="More">'+
+                                    '</button>'+
+                                    '<div class="dropdown-menu dropdown-menu-right submenu-right">' +
+                                    '<a href="/MembersDetails/' + data + '"><button class="dropdown-item submenu-item" type="button">View More Details</button></a>' +
+                            '<a href="/Admin/DeactivateUser/' + data + '"><button onclick="ConfirmFunctionForDeactivateUser()" class="dropdown-item submenu-item" type="button">Deactivate</button></a>'+
+                                    '</div>'+
+                                    '</div >';
+                        return img;
+                    }
+                },
+                {
+                    "targets": 5,
+                    "render": function (data, type, row) {
+                        var nur = '<a href="NotesUnderReview?userID=' + row["UserId"] + '">' + data + '</a>';
+                        return nur;
+                    }
+                },
+                {
+                    "targets": 6,
+                    "render": function (data, type, row) {
+                        var pn = '<a href="PublishedNotes?userID=' + row["UserId"] + '">' + data + '</a>';
+                        return pn;
+                    }
+                },
+                {
+                    "targets": 7,
+                    "render": function (data, type, row) {
+                        var dn = '<a href="DownloadedNotes?userID=' + row["UserId"] + '">' + data + '</a>';
+                        return dn;
+                    }
+                },
+                {
+                    "targets": 8,
+                    "render": function (data, type, row) {
+                        var te = '<a href="DownloadedNotes?userID=' + row["UserId"] + '">' + data + '</a>';
+                        return te;
+                    }
+                }],
+                columns: [{ 'data': 'SrNo' },
+                    { 'data': 'FirstName' },
+                    { 'data': 'LastName' },
+                    { 'data': 'Email' },
+                    { 'data': 'JoiningDate' },
+                    { 'data': 'UnderReviewNotes' },
+                    { 'data': 'PublishedNotes' },
+                    { 'data': 'DownloadedNotes' },
+                    { 'data': 'TotalExpenses' },
+                    { 'data': 'TotalEarnings' },
+                    { 'data': 'UserId' }]
+            });
+        $('#searchMembers').keyup(function () {
+            $("#section-first .section-first-heading input").css("background", "none");
+            t.search($(this).val()).draw();
+            makePagination();
+        });
+
+        makePagination();
+        
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+    };
+    
+    function ConfirmFunctionForDeactivateUser() {
+        var confirmBox = confirm("Are you sure you want to make this member inactive?");
+        if (confirmBox == false) {
+            event.preventDefault();
+            window.location.reload();
+        }
+    }
+
+    function makePagination() {
+        $(".dataTables_filter").hide();
+        $('#members_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#members_paginate').addClass("pagination-area text-center");
+        $('#members_paginate').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+    }
+
+</script>

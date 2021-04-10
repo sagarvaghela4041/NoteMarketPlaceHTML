@@ -90,12 +90,12 @@
                                 }
                                 else
                                 {
-                                    <span id="profileUpload">@Path.GetFileName(Model.ProfilePicture)</span>
+                                    <span id="profileUploadName">@Path.GetFileName(Model.ProfilePicture)</span>
                                 }
                             }
                             
                         </label>
-                        @Html.TextBoxFor(m => m.file, new { @type = "file", @class="form-control profile-upload", @id="profileUpload", @name="file"})
+                        @Html.TextBoxFor(m => m.file, new { @type = "file", @class="form-control profile-upload", @id="profileUpload", @name= "profileUpload" })
                     </div>
                 </div>
 

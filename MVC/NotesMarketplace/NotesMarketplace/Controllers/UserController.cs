@@ -13,7 +13,7 @@ namespace NotesMarketplace.Controllers
 {
     public class UserController : Controller
     {
-        NotesMarketplaceEntities data = new NotesMarketplaceEntities();
+        private NotesMarketplaceEntities data = new NotesMarketplaceEntities();
 
 
         [Route("User/Home")]
@@ -30,7 +30,7 @@ namespace NotesMarketplace.Controllers
         public ActionResult AddNotes()
         {
             /*Temp session to avoid login*/
-            Session["userId"] =0;
+            /*Session["userId"] =0;*/
 
             if (Session["userId"] == null)
             {

@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "DownloadedNotes";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@Scripts.Render("~/AdminScripts")
+@Scripts.Render("~/libs")
+<section id="section-first">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>Downloaded Notes</h1>
+            </div>
+            <div class="col-md-12 section-first-filters">
+                <div class="div-filter">
+                    <p>Note</p>
+                    @Html.DropDownList("note", (SelectList)ViewBag.noteTitle, "Select note", new { @id = "note" })
+                </div>
+                <div class="div-filter">
+                    <p>Seller</p>
+                    @Html.DropDownList("seller", (List<SelectListItem>)ViewBag.Seller, "Select seller", new { @id = "seller" })
+                </div>
+                <div class="div-filter">
+                    <p>Buyer</p>
+                    @Html.DropDownList("buyer", (List<SelectListItem>)ViewBag.Buyer, "Select buyer", new { @id = "buyer" })
+                </div>
+                <input type="search" placeholder="Seach" class="search" id="seachNotes">
+                <img class="search-icon" src="../../images/images/search-icon.png" alt="search">
+                <button>SEARCH</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="DownloadedNotes">
+                <thead>
+                    <tr>
+                        <th scope="col">SR NO.</th>
+                        <th scope="col">NOTE TITLE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col">BUYER</th>
+                        <th scope="col">SELLER</th>
+                        <th scope="col">SELL TYPE</th>
+                        <th scope="col">PRICE</th>
+                        <th scope="col">DOWNLOADED DATE/TIME</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/Admin/DownloadedNotesData?noteID=@ViewBag.noteID&userID=@ViewBag.userID",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    }
+    );
+    function OnSuccess(response) {
+
+
+
+        t = $("#DownloadedNotes").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var img = '<div class="btn-group table-submenu">'+
+                                  '<button type = "button" class="btn btn-secondary dropdown-toggle" data - toggle="dropdown" aria - haspopup="true" aria - expanded="false">'+
+                                  '<img src="../images/images/dots.png" alt="More">'+
+                                  '</button>'+
+                                  '<div class="dropdown-menu dropdown-menu-right submenu-right">' +
+                                  '<a href="/User/DownloadNoteById/' + data + '"><button class="dropdown-item submenu-item" type="button">Download Notes</button></a>' +
+                                  '<a href="/User/NoteDetails/' + data + '"><button class="dropdown-item submenu-item" type="button">View More Details</button></a>' +
+                                  '</div>'+
+                                  '</div>';
+                        return img;
+                    }
+                },
+                {
+                    "targets": 1,
+                    "render": function (data, type, row) {
+                        var lnk = '<a href="/User/NoteDetails/' + row["NoteID"] + '">' + data + '</a>';
+                        return lnk;
+                    }
+                },
+                {
+                    "targets": 3,
+                    "render": function (data, type, row) {
+                        var buyer = '<div>' + data +
+                            '<a style="margin-left:5px;" href="/MembersDetails/' + row["UserID"] + '"><img src="../images/Dashboard/eye.png"></a></div>';
+                        return buyer;
+                    }
+                },
+                {
+                    "targets": 4,
+                    "render": function (data, type, row) {
+                        var seller = '<div>' + data +
+                            '<a style="margin-left:5px;" href="/MembersDetails/' + row["UserID2"] + '"><img src="../images/Dashboard/eye.png"></a></div>';
+                      return seller;
+                    }
+                }],
+                columns: [{ 'data': 'SrNo' },
+                { 'data': 'NoteTitle' },
+                { 'data': 'NoteCategory' },
+                { 'data': 'Buyer' },
+                { 'data': 'Seller' },
+                { 'data': 'SellType' },
+                { 'data': 'Price' },
+                { 'data': 'GeneralDateTime' },
+                { 'data': 'NoteID' }]
+            });
+        $('#seachNotes').keyup(function () {
+            $("#section-first .section-first-heading input").css("background", "none");
+            t.search($(this).val()).draw();
+            makePagination();
+        })
+
+        $("#note").on("change", function () {
+            t.columns(1).search($(this).val()).draw();
+            makePagination();
+        });
+        $("#seller").on("change", function () {
+            t.columns(4).search($(this).val()).draw();
+            makePagination();
+        });
+        $("#buyer").on("change", function () {
+            t.columns(3).search($(this).val()).draw();
+            makePagination();
+        });
+
+       
+        makePagination();
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+
+
+    };
+
+    function makePagination() {
+        $(".dataTables_filter").hide();
+        $('#DownloadedNotes_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#DownloadedNotes_paginate').addClass("pagination-area text-center");
+        $('#DownloadedNotes_paginate').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+
+        
+    }
+</script>

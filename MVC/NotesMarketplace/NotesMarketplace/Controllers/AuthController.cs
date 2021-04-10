@@ -6,12 +6,13 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace NotesMarketplace.Controllers
 {
     public class AuthController : Controller
     {
-        NotesMarketplaceEntities data = new NotesMarketplaceEntities();
+        private NotesMarketplaceEntities data = new NotesMarketplaceEntities();
         // GET: Auth
         [Route("Auth/Login")]
         public ActionResult Login()
@@ -47,7 +48,10 @@ namespace NotesMarketplace.Controllers
                 {
                     if (u.IsEmailVerified == true)
                     {
+                        /* Setting the session */
                         Session["userId"] = u.UserID;
+                        Session["roleId"] = u.RoleID;
+                        FormsAuthentication.SetAuthCookie(user.EmailID,user.RememberMe);
                         if (user.RememberMe)
                         {
                             HttpCookie cookie = new HttpCookie("Login");
@@ -64,7 +68,14 @@ namespace NotesMarketplace.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("SearchNotes", "User");
+                            if (u.RoleID == 3)
+                            {
+                                return RedirectToAction("SearchNotes", "User");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Dashboard", "Admin");
+                            }
                         }
                     }
                     else

@@ -86,6 +86,7 @@ D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\PagedLi
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Buffers.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.ComponentModel.Annotations.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Memory.dll
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Net.Http.Formatting.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Numerics.Vectors.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Runtime.CompilerServices.Unsafe.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Security.AccessControl.dll
@@ -94,6 +95,8 @@ D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Security.Principal.Windows.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Text.Encodings.Web.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Helpers.dll
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Http.dll
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Http.WebHost.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Mvc.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Optimization.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Razor.dll
@@ -132,9 +135,12 @@ D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\PagedLi
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\PagedList.Mvc.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Buffers.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Memory.xml
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Net.Http.Formatting.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Numerics.Vectors.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Runtime.CompilerServices.Unsafe.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Text.Encodings.Web.xml
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Http.xml
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Http.WebHost.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Helpers.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Mvc.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.Web.Optimization.xml
@@ -145,8 +151,8 @@ D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\System.
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Newtonsoft.Json.xml
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Antlr3.Runtime.pdb
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\obj\Debug\NotesMarketplace.csprojAssemblyReference.cache
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\obj\Debug\NotesMarketplace.csproj.CoreCompileInputs.cache
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\obj\Debug\NotesMarketplace.csproj.CopyComplete
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\obj\Debug\NotesMarketplace.dll
 D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\obj\Debug\NotesMarketplace.pdb
-D:\Tatva Soft\Training\Project\ASP\NotesMarketplace\NotesMarketplace\obj\Debug\NotesMarketplace.csprojAssemblyReference.cache

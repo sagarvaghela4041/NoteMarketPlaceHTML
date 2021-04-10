@@ -1,0 +1,220 @@
+﻿
+@{
+    ViewBag.Title = "PublishedNotes";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@Scripts.Render("~/AdminScripts")
+@Scripts.Render("~/libs")
+<section id="section-first">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>Published Notes</h1>
+            </div>
+            <div class="col-md-12 section-first-filter">
+                <div class="div-filter">
+                    <p>Seller</p>
+                    @Html.DropDownList("seller", (List<SelectListItem>)ViewBag.Seller, "Select seller", new { @id = "seller" })
+                </div>
+                <input type="search" placeholder="Seach" class="search" id="searchPublishedNotes">
+                <img class="search-icon" src="../../images/images/search-icon.png" alt="search">
+                <button>SEARCH</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="PublishedNotes">
+                <thead>
+                    <tr>
+                        <th scope="col">SR NO.</th>
+                        <th scope="col">NOTE TITLE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col">SELL TYPE</th>
+                        <th scope="col">PRICE</th>
+                        <th scope="col">SELLER</th>
+                        <th scope="col">PUBLISHED DATE</th>
+                        <th scope="col">APPROVED BY</th>
+                        <th scope="col" class="text-center">NUMBER OF DOWNLOADS</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Modal for unpublish note -->
+<div class="modal fade" id="report-issue-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" id="modal-add-review">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><img id="thanks-close" src="../../images/Notes-Details/close.png" alt="Close"></button>
+                <h1 id="noteTitle">NoteTitle</h1>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UnpublishNote", "Admin", FormMethod.Post))
+                {
+                    <input type="hidden" name="redirection" value="PublishedNotes"/>
+                    <input type="hidden" id="RejectID" name="RejectID" />
+                    <label id="add-review-comment">Remarks *</label><br>
+                    <textarea placeholder="   Comments..." name="comments"></textarea>
+                    <button onclick="ConfirmFunctionForUnpublish()" type="submit">Unpublish</button>
+                    <button data-dismiss="modal">Cancel</button>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/Admin/PublishedNotesData?userID=@ViewBag.userID",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    }
+    );
+    function OnSuccess(response) {
+
+
+
+        t = $("#PublishedNotes").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var img = '<div class="btn-group table-submenu">' +
+                            '<button type = "button" class="btn btn-secondary dropdown-toggle" data - toggle="dropdown" aria - haspopup="true" aria - expanded="false">' +
+                            '<img src="../images/images/dots.png" alt="More">' +
+                            '</button>' +
+                            '<div class="dropdown-menu dropdown-menu-right submenu-right">' +
+                            '<a href="/User/DownloadNoteById/' + data + '"><button class="dropdown-item submenu-item" type="button">Download Notes</button></a>' +
+                            '<a href="/User/NoteDetails/' + data + '"><button class="dropdown-item submenu-item" type="button">View More Details</button></a>' +
+                            '<button onclick="unpublishNote(this)" class="dropdown-item submenu-item" type="button" data-toggle="modal" data-target="#report-issue-modal" id="reportIssue" data-id="' + row['NoteID'] + '" data-title="' + row['NoteTitle'] + '">Unpublish</button>' +
+                            '</div>' +
+                            '</div >';
+                        return img;
+                    }
+                },
+                {
+                    "targets": 1,
+                    "render": function (data, type, row) {
+                        var lnk = '<a href="/User/NoteDetails/' + row["NoteID"] + '">' + data + '</a>';
+                        return lnk;
+                    }
+                },
+                {
+                    "targets": -2,
+                    "className":"text-center",
+                    "render": function (data, type, row) {
+                        var txt = '<a href="DownloadedNotes?noteID=' + row["NoteID"] + '">' + data + '</a>';
+                            return txt;
+                    }
+                },
+                {
+                    "targets": 5,
+                    "render": function (data, type, row) {
+                        var member = '<div>' + data +
+                            '<a style="margin-left:5px;" href="/MembersDetails/' + row["UserID"] + '"><img src="../images/Dashboard/eye.png"></a></div>';
+                        return member;
+                    }
+                }],
+                columns: [{ 'data': 'SrNo' },
+                { 'data': 'NoteTitle' },
+                { 'data': 'NoteCategory' },
+                { 'data': 'SellType' },
+                { 'data': 'Price' },
+                { 'data': 'Seller' },
+                { 'data': 'GeneralDateTime' },
+                { 'data': 'ActionedBy' },
+                { 'data': 'NumberOfDownloads' },
+                { 'data': 'NoteID' }]
+            });
+        $('#searchPublishedNotes').keyup(function () {
+            $("#section-first .section-first-heading input").css("background", "none");
+            t.search($(this).val()).draw();
+            makePagination();
+        })
+
+        $("#seller").on("change", function () {
+            t.columns(5).search($(this).val()).draw();
+            makePagination();
+        });
+
+        makePagination();
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+
+
+    };
+
+    function unpublishNote(e) {
+        var Notetitle = $(e).data('title');
+        var NoteId = $(e).data('id');
+        $('#noteTitle').html(Notetitle);
+        $('#RejectID').val(NoteId);
+    }
+
+    function ConfirmFunctionForUnpublish() {
+        var confirmBox2 = confirm("Are you sure you want to Unpublish this note?");
+        if (confirmBox2 == false) {
+            event.preventDefault();
+            window.location.reload();
+        }
+    }
+
+    function makePagination() {
+        $(".dataTables_filter").hide();
+        $('#PublishedNotes_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#PublishedNotes_paginate').addClass("pagination-area text-center");
+        $('#PublishedNotes_paginate').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+    }
+
+</script>

@@ -1,0 +1,130 @@
+﻿@model SystemConfiguration
+@{
+    ViewBag.Title = "ManageSystemConfiguration";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<section id="user-profile">
+    <div class="container" id="user-profile-form">
+        @using (Html.BeginForm("SaveSystemConfiguration", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">Manage System Configuration</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SupportEmail, "Support email address *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.SupportEmail, new { @type = "text", @class = "form-control user-profile-input", @placeholder = "Enter support email address", Value = ViewBag.SupportEmail })
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SupportPhone, "Support phone number *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.SupportPhone, new { @type = "text", @class = "form-control user-profile-input", @placeholder = "Enter phone number", Value = ViewBag.SupportPhone })
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.EmailAddress, "Email Address(es) (for various events system will send notification to these users) *", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.EmailAddress, new { @type = "text", @class = "form-control user-profile-input", @placeholder = "Enter email address", Value = ViewBag.EmailAddress })
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Facebook, "Facebook URL", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.Facebook, new { @type = "text", @class = "form-control user-profile-input", @placeholder = "Enter Facebook URL", Value = ViewBag.Facebook })
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Twitter, "Twitter URL", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.Twitter, new { @type = "text", @class = "form-control user-profile-input", @placeholder = "Enter twitter URL", Value = ViewBag.Twitter })
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Linkedin, "Linkedin URL", new { @class = "user-profile-label" })
+                        @Html.TextBoxFor(m => m.Linkedin, new { @type = "text", @class = "form-control user-profile-input", @placeholder = "Enter linkedin URL" , Value = ViewBag.Linkedin })
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.file1, "Default image for notes (if seller do not upload)", new { @for = "NotePreview", @class = "user-profile-label" })
+                        <br>
+                        <label for="NotePreview" id="profile-upload-label-img">
+                            <img src="../../images/User-Profile/upload.png" alt="Upload File Here">
+                            @{
+                                if (ViewBag.NotesPreview != null)
+                                {
+                                    <span id="NotesPreviewName">@Path.GetFileName(@ViewBag.NotesPreview)</span>
+                                }
+                                else
+                                {
+                                    <span id="NotesPreviewName">Uppload a picture</span>
+                                }
+                            }
+
+
+                        </label>
+                        @Html.TextBoxFor(m => m.file1, new { @type = "file", @class = "form-control profile-upload", @id = "NotePreview", @name = "NotePreview" })
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.file2, "Default profile picture (if seller do not upload)", new { @for = "ProfilePicture", @class = "user-profile-label" })
+                        <br>
+                        <label for="ProfilePicture" id="profile-upload-label-img">
+                            <img src="../../images/User-Profile/upload.png" alt="Upload File Here">
+                            @{ 
+                                if (ViewBag.ProfilePicture != null)
+                                {
+                                    <span id="ProfilePictureName">@Path.GetFileName(@ViewBag.ProfilePicture)</span>
+                                }
+                                else
+                                {
+                                    <span id="ProfilePictureName">Uppload a picture</span>
+                                }
+                            }
+                            
+
+                        </label>
+                        @Html.TextBoxFor(m => m.file2, new { @type = "file", @class = "form-control profile-upload", @id = "ProfilePicture", @name = "ProfilePicture" })
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <button type="submit" class="btn btn-primary" id="profile-submit">SUBMIT</button>
+        }
+    </div>
+</section>
+@Scripts.Render("~/Scripts")
+<script type="text/javascript">
+    $(function () {
+        $('#NotePreview').change(function () {
+            var NotesPreviewName = this.files[0]['name'];
+            $('#NotesPreviewName').html(NotesPreviewName);
+        });
+
+        $('#ProfilePicture').change(function () {
+            var ProfilePictureName = this.files[0]['name'];
+            $('#ProfilePictureName').html(ProfilePictureName);
+        });
+
+    });
+</script>
+

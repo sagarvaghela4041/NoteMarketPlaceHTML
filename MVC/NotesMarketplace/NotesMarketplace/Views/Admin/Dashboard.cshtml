@@ -1,0 +1,277 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@Scripts.Render("~/AdminScripts")
+@Scripts.Render("~/libs")
+
+<section id="dashboard-stats">
+
+    <div class="container">
+        <div class="row">
+            <h1>Dashboard</h1>
+            <div class="col-md-12 dashboard-blocks">
+                <div class="col-md-3 dashboard-block text-center">
+
+                    <h3><a href="NotesUnderReview">@ViewBag.NumberOfNotesInReview</a></h3>
+                    <p>Number of Notes in Review for Publish</p>
+
+                </div>
+
+                <div class="col-md-3 dashboard-block text-center">
+
+                    <h3><a href="DownloadedNotes">@ViewBag.NumberOfNotesDownloaded</a></h3>
+                    <p>Number of New Notes Downloaded(Last 7 days)</p>
+
+                </div>
+
+                <div class="col-md-3 dashboard-block text-center">
+
+
+
+                    <h3><a href="Members">@ViewBag.NumberOfNewRegistration</a></h3>
+                    <p>Number of New Registration(Last 7 days)</p>
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+</section>
+
+<!-- In Progress Notes -->
+<section id="section-first" style="margin: 0">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading dashboard-heading-sm">
+                <h1>Published Notes</h1>
+                <div class="dashboard-filter-sm">
+                    <input type="search" placeholder="Seach" class="search" id="searchNotes">
+                    <img class="search-icon" src="../../images/images/search-icon.png" alt="search">
+                    <button>SEARCH</button>
+                    @Html.DropDownList("month",(List<SelectListItem>)ViewBag.Months, "Select month",new { @id="months"})
+                    
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="dashboardPublishedNotes">
+                <thead>
+                    <tr>
+                        <th scope="col">SR NO.</th>
+                        <th scope="col">TITLE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col">ATTACHMENT SIZE</th>
+                        <th scope="col">SELL TYPE</th>
+                        <th scope="col">PRICE</th>
+                        <th scope="col">PUBLISHER</th>
+                        <th scope="col">PUBLISHED DATE</th>
+                        <th scope="col" class="text-center">NUMBER OF DOWNLOADS</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+
+    </div>
+
+</section>
+
+
+<!-- Modal for unpublish note -->
+<div class="modal fade" id="report-issue-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" id="modal-add-review">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><img id="thanks-close" src="../../images/Notes-Details/close.png" alt="Close"></button>
+                <h1 id="noteTitle">NoteTitle</h1>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UnpublishNote", "Admin", FormMethod.Post))
+                {
+                    <input type="hidden" name="redirection" value="Dashboard" />
+                    <input type="hidden" id="RejectID" name="RejectID" />
+                    <label id="add-review-comment">Remarks *</label><br>
+                    <textarea placeholder="   Comments..." name="comments"></textarea>
+                    <button onclick="ConfirmFunctionForUnpublish()" type="submit">Unpublish</button>
+                    <button data-dismiss="modal">Cancel</button>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        var month = @ViewBag.SelectedMonth;
+        $("#months").on("change", function () {
+            month = $(this).val();
+            $("#dashboardPublishedNotes").dataTable().fnDestroy();
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:4421/Admin/DashboardData/" + month,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: function (response) {
+                    alert(response.d);
+
+                },
+                error: function (response) {
+                    alert(response.d);
+                }
+            });
+
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/Admin/DashboardData/"+month,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    }
+    );
+    function OnSuccess(response) {
+
+
+
+        t = $("#dashboardPublishedNotes").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var img = '<div class="btn-group table-submenu">' +
+                            '<button type = "button" class="btn btn-secondary dropdown-toggle" data - toggle="dropdown" aria - haspopup="true" aria - expanded="false">' +
+                            '<img src="../images/images/dots.png" alt="More">' +
+                            '</button>' +
+                            '<div class="dropdown-menu dropdown-menu-right submenu-right">' +
+                            '<a href="/User/DownloadNoteById/' + data + '"><button class="dropdown-item submenu-item" type="button">Download Note</button></a>' +
+                            '<a href="/User/NoteDetails/' + data + '"><button class="dropdown-item submenu-item" type="button">View More Details</button></a>' +
+                            '<button onclick="unpublishNote(this)" class="dropdown-item submenu-item" type="button" data-toggle="modal" data-target="#report-issue-modal" id="reportIssue" data-id="' + row['NoteID'] + '" data-title="' + row['NoteTitle'] + '">Unpublish</button>' +
+                            '</div>' +
+                            '</div>';
+                        return img;
+                    }
+                },
+                {
+                "targets": -2,
+                "className": "text-center" 
+                },
+                {
+                "targets": 1,
+                "render": function (data, type, row) {
+                    var txt = '<a href="/User/NoteDetails/' + row["NoteID"] + '">' + data + '</a>';
+                    return txt;
+                }
+                },
+                {
+                    "targets": -2,
+                    "render": function (data, type, row) {
+                        var lnk = '<a href="DownloadedNotes?noteID=' + row["NoteID"] + '">' + data + '</a>';
+                        return lnk;
+                    }
+                }],
+                columns: [{ 'data': 'SrNo' },
+                { 'data': 'NoteTitle' },
+                { 'data': 'NoteCategory' },
+                { 'data': 'Remarks' },
+                { 'data': 'SellType' },
+                { 'data': 'Price' },
+                { 'data': 'ActionedBy' },
+                { 'data': 'GeneralDateTime' },
+                { 'data': 'NumberOfDownloads' },
+                { 'data': 'NoteID' }]
+            });
+        $('#searchNotes').keyup(function () {
+            $("#section-first .section-first-heading input").css("background", "none");
+            t.search($(this).val()).draw();
+            makePagination();
+        })
+        makePagination();
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+    };
+
+    function unpublishNote(e) {
+        var Notetitle = $(e).data('title');
+        var NoteId = $(e).data('id');
+        $('#noteTitle').html(Notetitle);
+        $('#RejectID').val(NoteId);
+    }
+
+    function ConfirmFunctionForUnpublish() {
+        var confirmBox2 = confirm("Are you sure you want to Unpublish this note?");
+        if (confirmBox2 == false) {
+            event.preventDefault();
+            window.location.reload();
+        }
+    }
+
+    function makePagination() {
+        
+        $(".dataTables_filter").hide();
+        $('#dashboardPublishedNotes_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#dashboardPublishedNotes_paginate').addClass("pagination-area text-center");
+        $('#dashboardPublishedNotes_paginate').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+
+        
+    }
+    
+</script>

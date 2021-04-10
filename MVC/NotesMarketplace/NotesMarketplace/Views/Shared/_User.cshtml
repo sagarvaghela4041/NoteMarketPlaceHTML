@@ -22,7 +22,7 @@
 
 </head>
 @{
-    int userId = (int)Session["userID"];
+    int userId = (int)Session["userId"];
     NotesMarketplaceEntities data = new NotesMarketplaceEntities();
     UserInfo u = data.UserInfoes.Where(m =>m.UserID == userId).FirstOrDefault();
 }
@@ -90,22 +90,22 @@
                     <div id="mobile-nav-content">
                         <ul class="nav">
 
-                            <li><a class="smooth-scroll" href="#home">Search Notes</a></li>
-                            <li><a class="smooth-scroll" href="#home">Sell Your Notes</a></li>
-                            <li><a class="smooth-scroll" href="#team">Buyer Request</a></li>
-                            <li><a class="smooth-scroll" href="#portfolio">FAQ</a></li>
-                            <li><a class="smooth-scroll" href="#portfolio">Contact Us</a></li>
+                            <li><a class="smooth-scroll" href="/User/SearchNotes">Search Notes</a></li>
+                            <li><a class="smooth-scroll" href="/User/Dashboard">Sell Your Notes</a></li>
+                            <li><a class="smooth-scroll" href="/User/BuyerRequests">Buyer Request</a></li>
+                            <li><a class="smooth-scroll" href="/User/Faq">FAQ</a></li>
+                            <li><a class="smooth-scroll" href="/User/ContactUs">Contact Us</a></li>
                             <li id="profile-menu">
-                                <img id="navigation-mobile-img" src="../../images/images/user-img.png" class="img-circle" alt="user-img">
+                                <img id="navigation-mobile-img" src="/Uploads/@Path.GetFileName(u.ProfilePicture)" style="max-width:41px; max-height:41px;" class="img-circle" alt="user-img">
                                 <div class="profile-submenu">
-                                    <a class="dropdown-item" href="#">My Profile</a>
-                                    <a class="dropdown-item" href="#">My Downloads</a>
-                                    <a class="dropdown-item" href="#">My Sold Notes</a>
-                                    <a class="dropdown-item" href="#">My Rejected Notes</a>
-                                    <a class="dropdown-item" href="#">Change Password</a>
+                                    @Html.ActionLink("My Profile", "MyProfile", "User", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("My Downloads", "MyDownloads", "User", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("My Sold Notes", "MySoldNotes", "User", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("My Rejected Notes", "MyRejectedNotes", "User", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Change Password", "ChangePassword", "Auth", null, new { @class = "dropdown-item" })
                                 </div>
                             </li>
-                            <button type="submit" class="btn btn-primary navigation-logout">Logout</button>
+                            <a href="/Auth/Logout"><button type="submit" class="btn btn-primary navigation-logout">Logout</button></a>
 
                         </ul>
                     </div>

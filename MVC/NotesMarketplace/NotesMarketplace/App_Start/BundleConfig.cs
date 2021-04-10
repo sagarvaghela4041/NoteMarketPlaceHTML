@@ -28,6 +28,14 @@ namespace NotesMarketplace
                       "~/Content/style.css",
                       "~/Content/responsive.css")
                 );
+
+            bundles.Add(new StyleBundle("~/Content/Admincss").Include(
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/bootstrap.css",
+                      "~/Content/Admin/style.css",
+                      "~/Content/Admin/responsive.css")
+                );
+
             bundles.Add(new StyleBundle("~/Content/lib").Include(
                 "~/Content/DataTables/css/dataTables.bootstrap.css"
                 )
@@ -42,6 +50,12 @@ namespace NotesMarketplace
                 "~/Scripts/jquery.min.js",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/script.js")
+                );
+
+            bundles.Add(new ScriptBundle("~/AdminScripts").Include(
+                "~/Scripts/jquery.min.js",
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/Admin/script.js")
                 );
 
             bundles.Add(new ScriptBundle("~/libs").Include(

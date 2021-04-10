@@ -28,13 +28,13 @@
 
                         <div class="col-md-6 dashboard-earnings-stats-inner">
 
-                            <h3>@Model.NumberOfSoldNotes</h3>
+                            <h3><a href="/User/MySoldNotes">@Model.NumberOfSoldNotes</a></h3>
                             <p>Number of Notes Sold</p>
 
                         </div>
                         <div class="col-md-6 dashboard-earnings-stats-inner">
 
-                            <h3>$ @Model.MoneyEarned</h3>
+                            <h3><a href="/User/MySoldNotes">$ @Model.MoneyEarned</a></h3>
                             <p>Money Earned</p>
 
                         </div>
@@ -47,15 +47,15 @@
                 <div class="col-md-6" id="dashboard-right">
 
                     <div class="col-md-4 dashboard-user text-center">
-                        <h3>@Model.MyDownloads</h3>
+                        <h3><a href="/User/MyDownloads">@Model.MyDownloads</a></h3>
                         <p>My Downloads</p>
                     </div>
                     <div class="col-md-4 dashboard-user text-center">
-                        <h3>@Model.MyRejectedNotes</h3>
+                        <h3><a href="/User/MyRejectedNotes">@Model.MyRejectedNotes</a></h3>
                         <p>My Rejected Notes</p>
                     </div>
                     <div class="col-md-4 dashboard-user text-center">
-                        <h3>@Model.BuyerRequests</h3>
+                        <h3><a href="/User/BuyerRequests">@Model.BuyerRequests</a></h3>
                         <p>Buyer Request</p>
                     </div>
 
@@ -78,7 +78,8 @@
         <div class="row">
             <div class="col-md-12 section-first-heading">
                 <h1>In Progress Notes</h1>
-                <input type="search" placeholder="      Seach" id="search">
+                <input type="search" placeholder="Seach" class="search" id="search">
+                <img class="search-icon" src="../../images/images/search-icon.png" alt="search">
                 <button>SEARCH</button>
             </div>
 
@@ -140,7 +141,7 @@
                         if (row["Status"] == "Draft") {
                             var id = row["id"];
                             var img = '<a href="EditNote/'+id+'"><img src="../../images/images/edit.png" style="margin-right:10px"  alt="Edit"></a>' +
-                                '<a href="DeleteNote/' + id +'"><img src="../../images/images/delete.png" alt="Delete"></a>'
+                                '<a onclick="deleteNote()" href="DeleteNote/' + id +'"><img src="../../images/images/delete.png" alt="Delete"></a>'
                             return img;
                         }
                         else {
@@ -159,8 +160,25 @@
         $('#search').keyup(function () {
             $(this).css("background", "none");
             t.search($(this).val()).draw();
+            makePaginationForInProgressNotes();
         })
 
+        makePaginationForInProgressNotes();
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+    };
+
+    function deleteNote() {
+        var confirmBox = confirm("Are you sure, you want to delete this note?");
+        if (confirmBox == false) {
+            event.preventDefault();
+        }
+    }
+
+    function makePaginationForInProgressNotes() {
         $(".dataTables_filter").hide();
         $('#inProgressNotes_paginate').parent().removeClass('col-sm-7').siblings().remove();
         $('#inProgressNotes_paginate').addClass("pagination-area text-center");
@@ -185,12 +203,7 @@
             }
 
         });
-
-        $('.table-submenu').on('click', function () {
-            $(this).toggleClass('open');
-        });
-
-    };
+    }
 </script>
 
 
@@ -216,7 +229,8 @@
         <div class="row">
             <div class="col-md-12 section-first-heading">
                 <h1>Published Notes</h1>
-                <input  type="search" placeholder="      Seach" id="searchPublishedNotes">
+                <input type="search" placeholder="Seach" class="search" id="searchPublishedNotes">
+                <img class="search-icon" src="../../images/images/search-icon.png" alt="search">
                 <button>SEARCH</button>
             </div>
 
@@ -291,8 +305,18 @@
         $('#searchPublishedNotes').keyup(function () {
             $(this).css("background", "none");
             t2.search($(this).val()).draw();
+            makePaginationForPublishedNotes();
         })
 
+        makePaginationForPublishedNotes();
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+    };
+
+    function makePaginationForPublishedNotes() {
         $(".dataTables_filter").hide();
         $('#publishedNotes_paginate').parent().removeClass('col-sm-7').siblings().remove();
         $('#publishedNotes_paginate').addClass("pagination-area text-center");
@@ -317,11 +341,6 @@
             }
 
         });
-
-        $('.table-submenu').on('click', function () {
-            $(this).toggleClass('open');
-        });
-
-    };
+    }
 </script>
 

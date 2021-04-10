@@ -1,0 +1,40 @@
+﻿@model Country
+@{
+    ViewBag.Title = "AddCountry";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<section id="user-profile">
+    <div class="container" id="user-profile-form">
+        @using (Html.BeginForm("SaveCountry","Admin",FormMethod.Post)) {
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="profile-headings">Add Country</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.HiddenFor(m => m.CountryID)
+                    @Html.HiddenFor(m => m.AddedBy)
+                    @Html.HiddenFor(m => m.DateAdded)
+                    @Html.HiddenFor(m => m.IsActive)
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CountryName, "Country Name *", new { @for = "profile-fn", @class="user-profile-label"})
+                        @Html.TextBoxFor(m => m.CountryName, new { @id = "profile-fn", @type = "text", @class="form-control user-profile-input", @placeholder="Enter category name"})
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CountryCode, "Country Code *", new { @for = "profile-ln", @class="user-profile-label"})
+                        @Html.TextBoxFor(m => m.CountryCode, new { @id = "profile-ln", @type = "text", @class="form-control user-profile-input", @placeholder="Enter your description"})
+                    </div>
+                </div>
+
+            </div>
+
+
+            <button type="submit" class="btn btn-primary" id="profile-submit">SUBMIT</button>
+        }
+    </div>
+</section>

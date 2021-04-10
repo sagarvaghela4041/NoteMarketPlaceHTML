@@ -11,7 +11,9 @@ namespace NotesMarketplace
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Web;
+
     public partial class SystemConfiguration
     {
         public int ID { get; set; }
@@ -22,5 +24,39 @@ namespace NotesMarketplace
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+
+
+        [NotMapped]
+        public string SupportEmail { get; set; }
+
+        [NotMapped]
+        public string SupportPhone { get; set; }
+
+        [NotMapped]
+        public string EmailAddress { get; set; }
+
+        [NotMapped]
+        public string Facebook { get; set; }
+
+        [NotMapped]
+        public string Twitter { get; set; }
+
+        [NotMapped]
+        public string Linkedin { get; set; }
+
+        [NotMapped]
+        public string NotesPreview { get; set; }
+
+        [NotMapped]
+        public string ProfilePicture { get; set; }
+
+
+
+
+        [NotMapped]
+        public HttpPostedFileBase file1 { get; set; }
+        
+        [NotMapped]
+        public HttpPostedFileBase file2 { get; set; }
     }
 }

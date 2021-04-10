@@ -1,0 +1,190 @@
+﻿@model UserInfo
+@{
+    ViewBag.Title = "MembersDetails";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@Scripts.Render("~/AdminScripts")
+@Scripts.Render("~/libs")
+@{
+    DateTime dob = (DateTime)Model.DateOfBirth;
+    string format = "dd-MM-yyyy";
+    string dateOfBirth = dob.ToString(format);
+}
+
+<section id="notes-details">
+
+    <div class="container">
+        <div class="row">
+            <h3>Member Details</h3>
+            <div class="col-md-6" id="member-details-left">
+
+                <img src="/Uploads/@Path.GetFileName(Model.ProfilePicture)" class="member" alt="Member" style="margin-bottom: 20px; max-height:155px; max-width:155px;">
+
+
+                <div class="member-details-more member-details-border">
+                    <span class="col-md-6 notes-details-label">First Name:</span><span class="col-md-6 notes-details-ans">@Model.FirstName</span><br><br>
+                    <span class="col-md-6 notes-details-label">Last Name:</span><span class="col-md-6 notes-details-ans">@Model.LastName</span><br><br>
+                    <span class="col-md-6 notes-details-label">Email:</span><span class="col-md-6 notes-details-ans">@Model.EmailID</span><br><br>
+                    <span class="col-md-6 notes-details-label">DOB:</span><span class="col-md-6 notes-details-ans">@dateOfBirth</span><br><br>
+                    <span class="col-md-6 notes-details-label">Phone Number:</span><span class="col-md-6 notes-details-ans">@Model.PhoneNumber</span><br><br>
+                    <span class="col-md-6 notes-details-label">College/University:</span><span class="col-md-6 notes-details-ans">@Model.University</span><br><br>
+                </div>
+
+            </div>
+
+            <div class="col-md-6" id="member-details-right">
+
+                <div class="member-details-more">
+                    <span class="col-md-6 notes-details-label">Address 1:</span><span class="col-md-6 notes-details-ans">@Model.AddressLine1</span><br><br>
+                    <span class="col-md-6 notes-details-label">Address 2:</span><span class="col-md-6 notes-details-ans">@Model.AddressLine2</span><br><br>
+                    <span class="col-md-6 notes-details-label">City:</span><span class="col-md-6 notes-details-ans">@Model.City</span><br><br>
+                    <span class="col-md-6 notes-details-label">State:</span><span class="col-md-6 notes-details-ans">@Model.State</span><br><br>
+                    <span class="col-md-6 notes-details-label">Country:</span><span class="col-md-6 notes-details-ans">@Model.Country</span><br><br>
+                    <span class="col-md-6 notes-details-label">Zip Code:</span><span class="col-md-6 notes-details-ans">@Model.ZipCode</span><br><br>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<hr>
+
+<section id="section-first" style="margin-top: -80px;">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-first-heading">
+                <h1>Notes</h1>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="MemberNotes">
+                <thead>
+                    <tr>
+                        <th scope="col">SR NO.</th>
+                        <th scope="col">NOTE TITLE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">DOWNLOADED NOTES</th>
+                        <th scope="col">TOTAL EARNINGS</th>
+                        <th scope="col">DATE ADDED</th>
+                        <th scope="col">PUBLISHED DATE</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4421/Admin/MemberNotesData/@Model.UserID",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    }
+    );
+    function OnSuccess(response) {
+
+
+
+        t = $("#MemberNotes").DataTable(
+            {
+
+                stateSave: true,
+                bLengthChange: false,
+                info: false,
+                bFilter: true,
+                bSort: false,
+                bPaginate: true,
+                data: response,
+                columnDefs: [{
+                    "targets": -1,
+                    "render": function (data, type, row) {
+                        var img = '<div class="btn-group table-submenu">'+
+                                    '<button type = "button" class="btn btn-secondary dropdown-toggle" data - toggle="dropdown" aria - haspopup="true" aria - expanded="false">'+
+                                    '<img src="../images/images/dots.png" alt="More">'+
+                                    '</button>'+
+                                    '<div class="dropdown-menu dropdown-menu-right submenu-right">'+
+                                    '<a href="/User/DownloadNoteById/' + data + '"><button class="dropdown-item submenu-item" type="button">Download Notes</button></a>'+
+                                    '</div>'+
+                                    '</div>';
+                        return img;
+                    }
+                },
+                {
+                    "targets": 1,
+                    "render": function (data, type, row) {
+                        var lnk = '<a href="/User/NoteDetails/' + row["NoteId"] + '">' + data + '</a>';
+                        return lnk;
+                    }
+                },
+                {
+                    "targets": 4,
+                    "className": "text-center",
+                    "render": function (data, type, row) {
+                        var dn = '<a href="/Admin/DownloadedNotes?noteID=' + row["NoteId"] + '">' + data + '</a>';
+                        return dn;
+                    }
+                }],
+                columns: [{ 'data': 'SrNo' },
+                { 'data': 'NoteTitle' },
+                { 'data': 'Category' },
+                { 'data': 'Status' },
+                { 'data': 'DownloadedNotes' },
+                { 'data': 'TotalEarnings' },
+                { 'data': 'DateAdded' },
+                { 'data': 'PublishedDate' },
+                { 'data': 'NoteId' }]
+            });
+
+
+        $(".dataTables_filter").hide();
+        $('#MemberNotes_paginate').parent().removeClass('col-sm-7').siblings().remove();
+        $('#MemberNotes_paginate').addClass("pagination-area text-center");
+        $('#MemberNotes_paginate').addClass("page-item");
+
+
+        $('.previous a').html('');
+        $('.previous a').append('<span class="page-link" href="#" aria-label="Previous"></span >').append('<img src="../../images/images/left-arrow.png">');
+
+        $('.paginate_button').addClass('page-item');
+        $('.paginate_button a').addClass('page-link');
+
+
+        $('.next a').html('');
+        $('.next a').append('<span class="page-link" href="#" aria-label="Next"></span>').append('<img src="../../images/images/right-arrow.png">');
+
+
+        $('.paginate_button').on('click', function () {
+
+            if (!$(this).hasClass('disabled')) {
+                location.reload();
+            }
+
+        });
+
+        $('.table-submenu').on('click', function () {
+            $(this).toggleClass('open');
+        });
+
+
+
+    };
+
+</script>
